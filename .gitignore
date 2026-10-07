@@ -1,0 +1,24 @@
+# Local configuration and secrets
+.env
+config.php
+db_config.php
+
+# Database credentials
+*.env
+
+# XAMPP / local server files
+xampp/
+htdocs/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor settings
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.log

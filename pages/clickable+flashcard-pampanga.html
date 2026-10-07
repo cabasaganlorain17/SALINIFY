@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kapampangan Flashcards</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #fff8df;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .learn_pampanga {
+            font-family: "Georgia", sans-serif;
+            background: #fff8df;
+            padding: 30px 50px;
+            padding-left: 140px;
+            height: 100vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(100%);
+            transition: transform 0.6s ease;
+            z-index: 5;
+        }
+
+        .learn_pampanga.show {
+            transform: translateY(0);
+        }
+
+/* SIDEBAR STYLES */
+        .sidebar {
+            width: 100px;
+            height: 100vh;
+            background: #ffffff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 15px;
+            gap: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        .sidebar .icon {
+            width: 80px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .sidebar .icon img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .sidebar ul li {
+            width: 100%;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+        .sidebar ul li a {
+            color: #e59d2c;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 0;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Sidebar Hover Effect */
+        .sidebar ul li a:hover {
+            transform: scale(1.15);
+            background-color: #fff8df;
+            color: #8a3b08;
+        }
+
+        .sidebar ul li a .material-icons {
+            font-size: 36px;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar ul li a:hover .material-icons {
+            transform: rotate(-5deg);
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-family: "Georgia", sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .header h1 {
+            font-family: 'bright DEMO', Georgia, serif;
+            color: #2e4365;
+            font-size: 45px;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        /* SECTION DIVIDERS */
+        .section-divider {
+            width: auto;
+            max-width: 250px;
+            background: #8a3b08;
+            color: #fff;
+            padding: 10px 25px;
+            font-size: 20px;
+            margin: 20px 0 10px 0;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            grid-column: 1 / -1;
+        }
+
+        /* BUTTONS */
+        .header-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .play-button,
+        .flip-button,
+        .nav-btn,
+        .back-btn {
+            padding: 10px 18px;
+            font-family: inherit;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .play-button,
+        .nav-btn {
+            background-color: #e59d2c;
+            color: white;
+        }
+
+        .flip-button,
+        .back-btn {
+            background-color: #2e4365;
+            color: white;
+        }
+
+        .play-button:hover,
+        .nav-btn:hover {
+            background-color: #c97f14;
+            transform: translateY(-2px);
+        }
+
+        .flip-button:hover,
+        .back-btn:hover {
+            background-color: #1d2f4d;
+            transform: translateY(-2px);
+        }
+
+        /* FLASHCARDS GRID */
+        .flashcards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding-bottom: 50px;
+        }
+
+        .flashcard {
+            height: 165px;
+            border: 4px solid #e59d2c;
+            border-radius: 22px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard:hover .card-inner,
+        .flashcard.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 18px;
+            padding: 10px;
+        }
+
+        .card-front {
+            background-color: #e59d2c;
+            border: 4px solid #ffffff;
+        }
+
+        .card-back {
+            background-color: #ffffff;
+            transform: rotateY(180deg);
+        }
+
+        .card-front .upper-text {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .card-back .upper-text {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #6a2d04;
+        }
+
+        .card-front .separator {
+            width: 60%;
+            margin: 8px auto;
+            border-top: 2px solid #f3d2a2;
+        }
+
+        .card-back .separator {
+            width: 60%;
+            margin: 8px auto;
+            border-top: 2px solid #e8c9a6;
+        }
+
+        .card-front .lower-text {
+            font-size: 0.9em;
+            color: #fff5e6;
+            font-style: italic;
+        }
+
+        .card-back .lower-text {
+            font-size: 0.9em;
+            color: #8a3b08;
+            font-style: italic;
+        }
+
+        /* DETAILS SECTION */
+        .details-section {
+            display: none;
+            max-width: 1000px;
+            margin: 30px auto;
+            position: relative;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content:space-between;
+            align-items:center;
+            flex-wrap: wrap;
+            gap: 40px;
+            border: 4px solid #8a3b08;
+            border-radius: 25px;
+            padding: 50px;
+            background: #ffffff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .dialect-word {
+            font-size: 48px;
+            font-weight: bold;
+            color: #2e4365;
+            margin-bottom: 20px;
+        }
+
+        .tagalog-word {
+            font-size: 22px;
+            color: #8a3b08;
+            margin: 15px 0;
+            margin-bottom:10px;
+        }
+
+        .image-container {
+            flex: 1;
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #eee;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: inherit;
+        }
+
+        .english-container {
+            margin-top: 20px;
+            border: 3px solid #2e4365;
+            border-radius: 18px;
+            padding: 15px;
+            background: #f5f5f5;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .example-text {
+            font-size: 18px;
+            color: #444;
+            line-height: 1.6;
+            border-left: 4px solid #e59d2c;
+            padding-left: 15px;
+            margin-top: 10px;
+        }
+
+        .pronunciation-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            font-size:18px;
+            font-style:italic;
+            color:#555;
+            margin:8px 0;
+        }
+
+        .audio-icon {
+            font-size: 28px;
+            color: #e59d2c;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .audio-icon:hover {
+            color: #2e4365;
+            transform: scale(1.1);
+        }
+
+        .button-group {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .back-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="icon"><img src="../assets/images/salinify.png" alt="Logo"></div>
+        <ul>
+            <li><a href="home.html"><span class="material-icons">home</span><span class="nav-label">Home</span></a></li>
+            <li><a href="classes.html"><span class="material-icons">school</span><span
+                        class="nav-label">Origin</span></a></li>
+            <li><a href="learn-ui.html"><span class="material-icons">menu_book</span><span
+                        class="nav-label">Dialect</span></a></li>
+            <li><a href="play-ui.html"><span class="material-icons">sports_esports</span><span
+                        class="nav-label">Play</span></a></li>
+        </ul>
+    </div>
+
+    <div class="learn_pampanga">
+        <div class="header" id="mainHeader">
+            <h1>Kapampangan</h1>
+            <div class="header-buttons">
+                <button class="flip-button" id="flipAllBtn">👀 Show All</button>
+                <button class="play-button" onclick="window.location.href='play-ui.html'">🎮 Play</button>
+            </div>
+        </div>
+
+        <div class="flashcards-container" id="flashcards"></div>
+
+        <div class="details-section" id="details">
+            <div class="back-header">
+                <button class="back-btn" onclick="goBack()">⬅ Back to Flashcards</button>
+            </div>
+
+            <div class="main-container">
+                <div style="flex: 1.5;">
+                    <div class="dialect-word" id="dialectWord"></div>
+
+                    <div class="pronunciation-wrapper">
+                        <div class="lower-text" id="pronunciationText" style="font-size: 1.3em;"></div>
+                        <span class="audio-icon material-icons" id="playBtn">volume_up</span>
+                        <audio id="audioElement"></audio>
+                    </div>
+
+                    <div class="tagalog-word" id="tagalogWord"></div>
+                    <div class="example-text" id="exampleText"></div>
+                </div>
+                <div class="image-container">
+                    <img id="wordImage" src="" alt="Word Image">
+                </div>
+            </div>
+
+            <div class="english-container" id="englishText"></div>
+
+            <div class="button-group">
+                <button class="nav-btn" onclick="prevWord()">⬅ Previous Word</button>
+                <button class="nav-btn" onclick="nextWord()">Next Word ➡</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const words = [
+            // Nouns
+            { cat: "Nouns", dialect: "Íma", pron: "ee-mah", tagalog: "Nanay", english: "Mother", example: "Kapampangan: Mahal ko si <b>Íma</b>", image: "../assets/images/ina.png", audio: "../assets/audio/ima.mp3" },
+            { cat: "Nouns", dialect: "Tatáng", pron: "tah-tahng", tagalog: "Tatay", english: "Father", example: "Kapampangan: Masipag ang aking <b>Tatáng</b>.", image: "../assets/images/ama.png", audio: "../assets/audio/tatang.mp3" },
+            { cat: "Nouns", dialect: "Àtchi", pron: "at-chee", tagalog: "Àte", english: "Older Sister", example: "Kapampangan: Nandiyan ang aking <b>Àtchi</b> sa bahay.", image: "../assets/images/ate.png", audio: "../assets/audio/atchi.mp3" },
+            { cat: "Nouns", dialect: "Kóya", pron: "koh-yah", tagalog: "Kúya", english: "Older Brother", example: "Kapampangan: Laging akong tinutulungan ng aking <b>Kóya</b>.", image: "../assets/images/kuya.png", audio: "../assets/audio/koya.mp3" },
+
+
+            //Adjectives
+            { cat: "Adjectives", dialect: "Mapalí", pron: "ma-pa-li", tagalog: "Mainit", english: "Hot", example: "Kapampangan: <b>Mapalí</b> ang sabaw, maghintay ka muna bago inumin.", image: "../assets/images/hot2.png", audio: "../assets/audio/mapali.mp3" },
+            { cat: "Adjectives", dialect: "Marimlá", pron: "ma-rim-la", tagalog: "Malamíg", english: "Cold", example: "Kapampangan: <b>Marimlá</b> ang tubig sa baso.", image: "../assets/images/cold.png", audio: "../assets/audio/marimla.mp3" },
+            { cat: "Adjectives", dialect: "Malagú", pron: "ma-la-gu", tagalog: "Maganda", english: "Beautiful", example: "Kapampangan: <b>Malagú</b> ang bulaklak sa hardin.", image: "../assets/images/beautiful.png", audio: "../assets/audio/malagu.mp3" },
+            { cat: "Adjectives", dialect: "Masantíng", pron: "ma-san-ting", tagalog: "Gwapo", english: "Handsome", example: "Kapampangan: <b>Masantíng</b> si kuya sa kanyang bagong damit.", image: "../assets/images/handsome.png", audio: "../assets/audio/masanting.mp3" },
+
+
+            // Greetings
+            { cat: "Greetings", dialect: "Mayap á abák", pron: "ma-yap ah ah-bak", tagalog: "Magandáng Umaga", english: "Good Morning", example: "Kapampangan: <b>Mayap á abák</b>, sana maganda ang araw mo.", image: "../assets/images/morning.png", audio: "../assets/audio/bigat.mp3" },
+            { cat: "Greetings", dialect: "Dakal á Salamat", pron: "dah-kal ah sah-lah-mat", tagalog: "Maraming salamat", english: "Thank you very much", example: "Kapampangan: <b>Dakal á Salamat</b> sa lahat ng ginawa mo.", image: "../assets/images/thanks.png", audio: "../assets/audio/unay.mp3" },
+            { cat: "Greetings", dialect: "Mayap á gatpanapún", pron: "ma-yap a gat-pa-na-pun", tagalog: "Magandáng Hapon", english: "Good Afternoon", example: "Kapampangan: <b>Mayap á gatpanapún</b>, maligayang hapon sa iyo.", image: "../assets/images/afternoon.png", audio: "../assets/audio/malem.mp3" },
+            { cat: "Greetings", dialect: "Mayap á béngi", pron: "ma-yap a beng-i", tagalog: "Magandáng Gabi", english: "Good Evening", example: "Kapampangan: <b>Mayap á béngi</b>, sana maginhawa ang gabi mo.", image: "../assets/images/evening.png", audio: "../assets/audio/rabi.mp3" },
+
+
+            // Foods
+            { cat: "Foods", dialect: "Pamangan", pron: "pah-mah-ngan", tagalog: "Pagkain", english: "Food", example: "Kapampangan: Masarap ang <b>Pamangan</b> sa Pampanga.", image: "../assets/images/food.png", audio: "../assets/audio/pamangan.mp3" },
+            { cat: "Foods", dialect: "Gulé", pron: "gu-leh", tagalog: "Gulay", english: " Vegetable", example: "Kapampangan: Masustansya ang <b>Gulé</b> sa bawat pagkain.", image: "../assets/images/vegetable.png", audio: "../assets/audio/gule.mp3" },
+            { cat: "Foods", dialect: "Busbus", pron: "bus-bus", tagalog: "Prutas", english: "Fruits", example: "Kapampangan: Matamis ang <b>Busbus</b> na ito.", image: "../assets/images/fruits.png", audio: "../assets/audio/busbus.mp3" },
+            { cat: "Foods", dialect: "Nasi", pron: "na-si", tagalog: "Kanin", english: "Cooked Rice", example: "Ilocano: Maputi ang <b>Nasi</b> na sinaing namin.", image: "../assets/images/cooked_rice.png", audio: "../assets/audio/nasi.mp3" },
+
+
+            //Nature
+            { cat: "Nature", dialect: "Bunduk", pron: "bun-duk", tagalog: "Bundok", english: "Mountain", example: "Kapampangan: Natatanaw ko ang <b>Bunduk</b> mula sa aming bahay.", image: "../assets/images/mountain.png", audio: "../assets/audio/bunduk.mp3" },
+            { cat: "Nature", dialect: "Dayat Malat", pron: "da-yat ma-lat", tagalog: "Karagatan/Dagat", english: "Ocean/Sea", example: "Kapampangan: <b>Dayat Malat</b> ang napakalinaw sa bakasyon namin", image: "../assets/images/ocean.png", audio: "../assets/audio/dayat-malat.mp3" },
+            { cat: "Nature", dialect: "Ilug", pron: "i-lug", tagalog: "Ilog", english: "River", example: "Kapampangan: <b>Ilug</b> ang dumadaloy sa likod ng bahay namin.", image: "../assets/images/river.png", audio: "../assets/audio/ilug.mp3" },
+            { cat: "Nature", dialect: "Tanaman", pron: "ta-na-man", tagalog: "Puno", english: "Tree", example: "Kapampangan: <b>Tanaman</b> ang nagbibigay ng lilim sa aming bakuran.", image: "../assets/images/tree.png", audio: "../assets/audio/tanaman.mp3" },
+        ];
+
+        const container = document.getElementById("flashcards");
+        let currentIndex = 0;
+        let lastCat = "";
+
+        // Render Grid
+        words.forEach((w, i) => {
+            if (w.cat !== lastCat) {
+                const div = document.createElement("div");
+                div.className = "section-divider";
+                div.innerHTML = `<span class="material-icons">label</span> ${w.cat}`;
+                container.appendChild(div);
+                lastCat = w.cat;
+            }
+
+            const card = document.createElement("div");
+            card.className = "flashcard";
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="upper-text">${w.dialect}</div>
+                        <div class="separator"></div>
+                        <div class="lower-text">[ ${w.pron} ]</div>
+                    </div>
+                    <div class="card-back">
+                        <div class="upper-text">${w.tagalog}</div>
+                        <div class="separator"></div>
+                        <div class="lower-text">${w.english}</div>
+                    </div>
+                </div>`;
+            card.onclick = () => {
+                currentIndex = i;
+                showDetails();
+            };
+            container.appendChild(card);
+        });
+
+        function showDetails() {
+            document.getElementById("flashcards").style.display = "none";
+            document.getElementById("mainHeader").style.display = "none";
+            document.getElementById("details").style.display = "block";
+            displayWord();
+        }
+
+        function displayWord() {
+            const w = words[currentIndex];
+            document.getElementById("dialectWord").innerText = w.dialect;
+            document.getElementById("pronunciationText").innerText = `[ ${w.pron} ]`;
+            document.getElementById("tagalogWord").innerText = "Tagalog: " + w.tagalog;
+            document.getElementById("englishText").innerText = "English Definition: " + w.english;
+            document.getElementById("exampleText").innerHTML = w.example;
+            document.getElementById("wordImage").src = w.image;
+
+            // Audio logic
+            const audio = document.getElementById("audioElement");
+            audio.src = w.audio;
+            document.getElementById("playBtn").onclick = () => audio.play();
+        }
+
+        function nextWord() {
+            currentIndex = (currentIndex + 1) % words.length;
+            displayWord();
+        }
+
+        function prevWord() {
+            currentIndex = (currentIndex - 1 + words.length) % words.length;
+            displayWord();
+        }
+
+        function goBack() {
+            document.getElementById("flashcards").style.display = "grid";
+            document.getElementById("mainHeader").style.display = "flex";
+            document.getElementById("details").style.display = "none";
+        }
+
+        // Flip All functionality
+        document.getElementById('flipAllBtn').onclick = function () {
+            const cards = document.querySelectorAll('.flashcard');
+            const isFlipped = cards[0].classList.contains('flipped');
+            cards.forEach(c => c.classList.toggle('flipped', !isFlipped));
+            this.textContent = !isFlipped ? "🙈 Hide All" : "👀 Show All";
+        };
+
+        // Entrance animation
+        window.onload = () => {
+            setTimeout(() => {
+                document.querySelector('.learn_pampanga').classList.add('show');
+            }, 100);
+        };
+    </script>
+</body>
+
+</html>
+
+
+

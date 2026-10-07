@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Salinify</title>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #fff8df;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @font-face {
+      font-family: 'Bright DEMO';
+      src: url('../assets/fonts/BrightDemo.otf') format('opentype');
+    }
+
+    body {
+      height: 100vh;
+      font-family: 'Bright DEMO', Arial, sans-serif;
+    }
+
+    /* ================= SIDEBAR (PINNED) ================= */
+    .sidebar {
+      width: 100px;
+      height: 100vh;
+      background: #fff;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 15px;
+      gap: 20px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 100; /* Stays above the sliding background */
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .sidebar ul li {
+      width: 100%;
+      margin-bottom: 35px;
+      text-align: center;
+    }
+
+    .sidebar ul li a {
+      color: #e59d2c;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 0;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar ul li a:hover {
+      transform: scale(1.15);
+      background-color: #fff8df;
+      color: #8a3b08;
+    }
+
+    .sidebar ul li a .material-icons {
+      font-size: 36px;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar ul li a:hover .material-icons {
+      transform: rotate(-5deg);
+    }
+
+    .icon {
+      width: 80px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .icon img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .nav-label {
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-family: "Georgia", sans-serif;
+      letter-spacing: 1px;
+    }
+
+    /* ================= MAIN CONTENT & BACKGROUND ================= */
+    .background {
+      width: 100vw;
+      height: 100vh;
+      background-color: #fff8df;
+      background-image: linear-gradient(rgba(255, 248, 223, 0.8),
+          rgba(255, 248, 223, 0.3)), url('../assets/images/green1.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 5;
+      transform: translateY(100%);
+      transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+    }
+
+    .background.show {
+      transform: translateY(0);
+    }
+
+    .main {
+      margin-left: 100px; /* Space for sidebar */
+      padding: 20px 60px;
+      position: relative;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .exit-btn {
+      background: #2e4365;
+      color: #fff;
+      border: none;
+      padding: 10px 50px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 20px;
+      font-family: "Georgia", sans-serif;
+    }
+
+    .exit-btn:hover {
+      background: #ff4d4d;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .section-header h2 {
+      font-family: 'Bright DEMO', serif;
+      font-size: 42px;
+      color: #8a3b08;
+    }
+
+    .section-header p {
+      font-size: 18px;
+      color: #666;
+      margin-top: 5px;
+      font-family: "Georgia", sans-serif;
+    }
+
+    .activities {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      justify-items: center;
+      margin-top: 40px;
+      padding-bottom: 40px;
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      width: 380px;
+      height: 450px;
+      box-sizing: border-box;
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      border-radius: 15px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .activities .card:nth-child(1) { animation-delay: 0.1s; }
+    .activities .card:nth-child(2) { animation-delay: 0.3s; }
+    .activities .card:nth-child(3) { animation-delay: 0.5s; }
+
+    .card:hover { transform: scale(1.05); }
+
+    .card img {
+      width: auto;
+      height: 150px;
+      object-fit: contain;
+      display: block;
+      margin-top: 10px;
+    }
+
+    .p {
+      font-family: "Georgia", sans-serif;
+      font-size: 18px;
+      color: #444;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .card-buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      width: 150px;
+      align-self: flex-end;
+      margin-right: 10px;
+    }
+
+    .card button {
+      flex: 1;
+      padding: 10px 5px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #2e4365;
+      color: #ffffff;
+      font-family: 'Bright DEMO', serif;
+      transition: background 0.3s, transform 0.3s;
+      font-size: 18px;
+      white-space: nowrap;
+    }
+
+    .card h3 {
+      font-size: 35px;
+      color: #2e4365;
+      margin: 0;
+      font-family: 'Bright DEMO', serif;
+    }
+
+    .card button:hover {
+      background: #e59d2c;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="sidebar">
+    <div class="icon">
+      <img src="../assets/images/salinify.png" alt="Salin Icon">
+    </div>
+    <ul>
+      <li><a href="home.html"><span class="material-icons">home</span><span class="nav-label">Home</span></a></li>
+      <li><a href="classes.html"><span class="material-icons">school</span><span class="nav-label">Origin</span></a></li>
+      <li><a href="learn-ui.html"><span class="material-icons">menu_book</span><span class="nav-label">Dialect</span></a></li>
+      <li><a href="play-ui.html"><span class="material-icons">sports_esports</span><span class="nav-label">Play</span></a></li>
+    </ul>
+  </div>
+
+  <div class="background">
+    <div class="main">
+      <div class="header">
+        <button class="exit-btn">Exit</button>
+      </div>
+      <div class="section-header">
+        <h2>Put Your Knowledge to the Test</h2>
+        <p>Select a quiz type and see how much you’ve learned.</p>
+      </div>
+
+      <div class="activities">
+        <div class="card">
+          <img src="../assets/images/matching.png">
+          <h3>Matching Type</h3>
+          <div class="p">Match the word with its correct definition.</div>
+          <div class="card-buttons">
+            <button data-url="Game_Matchingtype_Kapampangan.html">Kapampangan</button>
+            <button data-url="Game_Matchingtype.html">Ilocano</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="../assets/images/choice.png">
+          <h3>Choice</h3>
+          <div class="p">Select the correct answer for each question.</div>
+          <div class="card-buttons">
+            <button data-url="Game_Choice_Kapampangan.html">Kapampangan</button>
+            <button data-url="Game_Choice.html">Ilocano</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="../assets/images/analogy.png">
+          <h3>Analogy</h3>
+          <div class="p">Choose the word that best completes the analogy.</div>
+          <div class="card-buttons">
+            <button data-url="Game_Analogy_Kapampangan.html">Kapampangan</button>
+            <button data-url="Game_Analogy.html">Ilocano</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const bg = document.querySelector('.background');
+
+      // 1. AUTO SLIDE UP ON LOAD
+      setTimeout(() => {
+        bg.classList.add('show');
+      }, 100);
+
+      // 2. SLIDE DOWN ON EXIT
+      function slideDownAndExit(targetUrl) {
+        bg.classList.remove('show');
+        setTimeout(() => {
+          window.location.href = targetUrl;
+        }, 650);
+      }
+
+      // Exit Button logic
+      document.querySelector(".exit-btn").addEventListener("click", (e) => {
+        e.stopPropagation();
+        const destination = document.referrer ? document.referrer : "home.html";
+        slideDownAndExit(destination);
+      });
+
+      // Game Button logic
+      document.querySelectorAll('.card button').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const url = btn.getAttribute('data-url');
+          if (url) {
+            slideDownAndExit(url);
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

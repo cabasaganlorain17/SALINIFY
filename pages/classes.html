@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salinify - Classes</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+    <style>
+        /* ================= LAYOUT & RESET (ORIGINAL) ================= */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        :root {
+            /* strictly Original Colors */
+            --ink: #4b3b2a;
+            --pampanga-primary: #e69f2c;
+            /* Original Pampanga Color */
+            --pampanga-soft: #fff8df;
+            /* Original Soft Pampanga Color */
+            --ilocos-primary: #2e4365;
+            /* Original Ilocos Color */
+            --ilocos-soft: #f4f7fa;
+            /* Original Soft Ilocos Color */
+        }
+
+
+        body {
+            font-family: 'bright DEMO', Georgia, serif;
+            background-color: var(--pampanga-soft);
+            color: var(--ink);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+
+        body.page-loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        body.page-exit {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+
+        /* ================= SIDEBAR (STRICTLY ORIGINAL) ================= */
+        .sidebar {
+            width: 100px;
+            height: 100vh;
+            background: #ffffff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 15px;
+            gap: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+
+        /* Logo Section */
+        .sidebar .icon {
+            width: 80px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+
+        .sidebar .icon img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+
+        /* Navigation List */
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+
+        .sidebar ul li {
+            width: 100%;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+
+        /* Navigation Links */
+        .sidebar ul li a {
+            color: #e59d2c;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 0;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+
+        /* Hover Effects */
+        .sidebar ul li a:hover {
+            transform: scale(1.15);
+            background-color: var(--pampanga-soft);
+            color: #8a3b08;
+        }
+
+
+        .sidebar ul li a .material-icons {
+            font-size: 36px;
+            transition: transform 0.3s ease;
+        }
+
+
+        .sidebar ul li a:hover .material-icons {
+            transform: rotate(-5deg);
+        }
+
+
+        /* Text Labels below icons */
+        .nav-label {
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-family: "Georgia", sans-serif;
+            letter-spacing: 1px;
+        }
+
+
+        /* ================= MAIN CONTENT (GAME LAYOUT) ================= */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: calc(100% - 100px);
+            margin-left: 100px;
+            /* Space for the fixed sidebar */
+
+
+            opacity: 0;
+            transform: translateY(100vh);
+            transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+        }
+
+
+        /* 3. Classes to trigger the slide */
+        .main-content.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        .main-content.exit {
+            opacity: 0;
+            transform: translateY(100vh);
+        }
+
+
+        .title-container {
+            width: 100%;
+            max-width: 1100px;
+            margin-bottom: 25px;
+        }
+
+
+        .info-title {
+            background-color: #8a3b08;
+            /* Original Info Title Color */
+            color: #f5f0e6;
+            padding: 12px 35px;
+            font-size: 35px;
+            border-radius: 50px;
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            border: 3px solid #fff;
+        }
+
+
+        /* ================= GAME BOARD CONTAINER (ORIGINAL ACCENTS) ================= */
+        .info-container {
+            width: 100%;
+            max-width: 1100px;
+            border-radius: 30px;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 5px solid var(--ink);
+            position: relative;
+            background: #fff;
+            transition: all 0.4s ease;
+        }
+
+
+        /* Applying original accent colors as background shifts */
+        .info-container.pampanga-active {
+            background: var(--pampanga-primary);
+            border-color: #d48b1d;
+        }
+
+
+        .info-container.ilocos-active {
+            background: var(--ilocos-primary);
+            border-color: #1f2f47;
+        }
+
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--ink);
+            background: #fff;
+            border: 3px solid var(--ink);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            z-index: 50;
+            transition: 0.2s;
+        }
+
+
+        .close-btn:hover {
+            transform: scale(1.1) rotate(90deg);
+            background: #ff4d4d;
+            color: white;
+        }
+
+
+        /* ================= TAB HEADERS (ORIGINAL UNIFORM COLORS) ================= */
+        .tab-headers {
+            display: flex;
+            gap: 8px;
+            padding: 20px 20px 0 20px;
+            background-color: #fff8df;
+        }
+
+
+        .tab-header {
+            padding: 14px 30px;
+            cursor: pointer;
+            border-radius: 15px 15px 0 0;
+            font-size: 20px;
+            color: white;
+            /* Original text color for tabs */
+            border: 4px solid var(--ink);
+            border-bottom: none;
+            transition: 0.2s;
+            font-family: Georgia, serif;
+            font-weight: bold;
+        }
+
+
+        /* Applying original regional tab colors */
+        .tab-header[data-tab="pampanga"] {
+            background-color: var(--pampanga-primary);
+        }
+
+
+        .tab-header[data-tab="ilocos"] {
+            background-color: var(--ilocos-primary);
+        }
+
+
+        /* White background for active tab */
+        .tab-header.active {
+            background-color: #fff !important;
+            color: var(--ink);
+            transform: translateY(0);
+            padding-top: 20px;
+            margin-top: -10px;
+        }
+
+
+        /* ================= COLLECTIBLE CARDS ================= */
+        .tab-content {
+            display: none;
+            padding: 30px 70px;
+            position: relative;
+        }
+
+
+        .tab-content.active {
+            display: block;
+        }
+
+
+        .cards-wrapper {
+            display: flex;
+            gap: 25px;
+            overflow-x: auto;
+            padding: 20px 0 30px 0;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+
+        .cards-wrapper a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-self: stretch;
+        }
+
+
+        .cards-wrapper a .info-card {
+            width: 100%;
+            min-width: 300px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .cards-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+
+        .info-card {
+            min-width: 300px;
+            background: #ffffff;
+            border-radius: 25px;
+            border: 4px solid var(--ink);
+            overflow: hidden;
+            box-shadow: 0 8px 0px rgba(0, 0, 0, 0.1);
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .info-card:hover {
+            transform: translateY(-10px) rotate(1deg);
+            box-shadow: 0 15px 0px rgba(0, 0, 0, 0.05);
+        }
+
+
+        .scroll-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 15;
+            border: 4px solid var(--ink);
+            box-shadow: 0 4px 0px var(--ink);
+            transition: 0.1s;
+        }
+
+
+        .scroll-arrow:active {
+            box-shadow: 0 0 0 var(--ink);
+            transform: translateY(-48%);
+        }
+
+
+        .arrow-left {
+            left: 15px;
+        }
+
+
+        .arrow-right {
+            right: 15px;
+        }
+
+
+        .card-image {
+            width: 100%;
+            height: 250px;
+            object-fit: inherit;
+            border-bottom: 4px solid var(--ink);
+        }
+
+
+        .card-body {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+
+        .card-title {
+            font-size: 18px;
+            font-family: Georgia, serif;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: inline-block;
+            background: var(--pampanga-soft);
+            padding: 4px 12px;
+            border: 2px solid var(--ink);
+            border-radius: 10px;
+        }
+
+
+        .card-text {
+            font-size: 15px;
+            line-height: 1.6;
+            text-align: justify;
+            font-family: Georgia, serif;
+        }
+
+
+        /* regional text colors on cards from original code */
+        #pampanga .card-title,
+        #pampanga .card-text {
+            color: #8a3b08;
+        }
+
+
+        #ilocos .card-title,
+        #ilocos .card-text {
+            color: #1f2f47;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+                padding-bottom: 120px;
+                width: 100%;
+            }
+
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                position: fixed;
+                bottom: 0;
+                top: auto;
+                padding: 10px;
+            }
+
+
+            .sidebar ul {
+                display: flex;
+                margin-top: 0;
+                justify-content: space-around;
+            }
+
+
+            .sidebar ul li {
+                margin-bottom: 0;
+            }
+
+
+            .scroll-arrow {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+    <div class="sidebar">
+        <div class="icon"><img src="../assets/images/salinify.png" alt="Salin Icon"></div>
+        <ul>
+            <li><a href="home.html"><span class="material-icons">home</span><span class="nav-label">Home</span></a></li>
+            <li><a href="classes.html"><span class="material-icons">school</span><span
+                        class="nav-label">Origin</span></a></li>
+            <li><a href="learn-ui.html"><span class="material-icons">menu_book</span><span
+                        class="nav-label">Dialect</span></a></li>
+            <li><a href="play-ui.html"><span class="material-icons">sports_esports</span><span
+                        class="nav-label">Play</span></a></li>
+        </ul>
+    </div>
+
+
+    <div class="main-content">
+        <div class="title-container">
+            <div class="info-title">💡 INFORMATION</div>
+        </div>
+
+
+        <div class="info-container pampanga-active" id="mainContainer">
+            <div class="close-btn" id="closeBtn">✖</div>
+
+
+            <div class="tab-headers">
+                <div class="tab-header active" data-tab="pampanga">Pampanga</div>
+                <div class="tab-header" data-tab="ilocos">Ilocos</div>
+            </div>
+
+
+            <div id="pampanga" class="tab-content active">
+                <div class="scroll-arrow arrow-left" onclick="scrollTab('pampanga', 'left')"><span
+                        class="material-icons">chevron_left</span></div>
+                <div class="scroll-arrow arrow-right" onclick="scrollTab('pampanga', 'right')"><span
+                        class="material-icons">chevron_right</span></div>
+                <div class="cards-wrapper" id="pampanga-wrapper">
+                    <a href="https://youtu.be/0_BHT5wPJlk?si=TGwpV2WyDD6T5K94" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/pampanga.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">📍 Location</div>
+                                <div class="card-text">
+                                    Pampanga is located in Central Luzon, Philippines. Its name comes
+                                    from “pangpang,” meaning riverbank.
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://youtu.be/9vEqm6sqmB8?si=Upyn8oahVXRU0bJR" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/pampanga_food.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">🍴 Cuisine</div>
+                                <div class="card-text">Known as the Culinary Capital of the Philippines, Pampanga is
+                                    famous
+                                    for sisig, bringhe, and morcon.</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://youtu.be/kDHApVQBmmA?si=luNX_aZcv_PgGt6F" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/pampanga_history.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">📜 History</div>
+                                <div class="card-text">The parol of Pampanga is a brightly crafted Christmas lantern
+                                    that
+                                    symbolizes faith, hope, and creativity of the Kapampangan people.</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://youtu.be/jZgj4hn7KA0?si=Tq2PFF7g6LNomr4-" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/pampanga_festival.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">🎉 Festival</div>
+                                <div class="card-text">The Frog Festival or "Fiestang Tugak" celebrates the rich
+                                    agricultural heritage and the importance of frogs in the local ecosystem.</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://youtu.be/UdpBGQXI0t0?si=wlra8HDb8CTPXK74" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/pampanga_clothing.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">🧵 Clothing</div>
+                                <div class="card-text">Kapampangans take pride in their "Pukpuk" (hammered) silver
+                                    jewelry
+                                    and traditional embroidered Barongs made from fine local fibers.</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://youtu.be/yduW7pfyBYk?si=yqVlai4IkimaHWOq" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/pampanga_culture.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">🏺 Culture</div>
+                                <div class="card-text">Kapampangan artisans are masters of hand-crafted traditions, from
+                                    the
+                                    vibrant glow of San Fernando's giant lanterns to the intricate woodcarvings and
+                                    pottery.
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://youtu.be/wIYwhRqraZg?si=M-sRfaqJmf-ywrfP" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/pampanga_heritage.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">🏛️ Heritage</div>
+                                <div class="card-text">Known as the "Sistine Chapel of the Philippines" in Guagua is a
+                                    National Cultural Treasure famous for its stunning Baroque murals and architecture.
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+            <div id="ilocos" class="tab-content">
+                <div class="scroll-arrow arrow-left" onclick="scrollTab('ilocos', 'left')"><span
+                        class="material-icons">chevron_left</span></div>
+                <div class="scroll-arrow arrow-right" onclick="scrollTab('ilocos', 'right')"><span
+                        class="material-icons">chevron_right</span></div>
+                <div class="cards-wrapper" id="ilocos-wrapper">
+                    <a href="https://youtu.be/pRRjBZotfww?si=tbMmwhXY2dspZu5L" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/ilocos_location.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">📍 Location</div>
+                                <div class="card-text">Derived from "Ylook," the name Ilocos refers to the "people of
+                                    the
+                                    lowlands," a coastal region where life is shaped by the sea, fertile plains, and a
+                                    resilient spirit.</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://youtu.be/iLTkDQLXIME?si=CQ908j11ZJAPvxST" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/ilocos_food.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">🍴 Cuisine</div>
+                                <div class="card-text">Ilocano food is full of bold, earthy flavors, from Pinakbet to
+                                    crispy
+                                    Bagnet and garlicky Longganisa.</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://youtu.be/nmwHmYU5b0c?si=h67EnXUw5KSF3DJd" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/ilocos_history.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">📜 History</div>
+                                <div class="card-text">Heritage shines in Abel Iloco fabric and the Kattukong hat,
+                                    showcasing Ilocano craftsmanship and resilience.</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://youtu.be/dUCrips-lcI?si=bIZGJB0QpH1TYSBW" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/ilocos_festival.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">🎉 Festival</div>
+                                <div class="card-text">The Guling-Guling Festival in Paoay is a pre-Lenten celebration
+                                    where
+                                    people smear white rice flour on their foreheads to signify purity.</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://youtu.be/ea8En1RCeoE?si=8wm3S2W-PH3wbAK2" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/ilocos_clothing.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">🧵 Clothing</div>
+                                <div class="card-text">Traditional Ilocano attire features "Inabel," a handwoven textile
+                                    known for its durability and intricate geometric patterns.</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://youtu.be/IW1Yls3VJI8?si=BconCTSmx-y90HmH" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/ilocos_culture.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">🏺 Culture</div>
+                                <div class="card-text">Ilocano culture is anchored in hardworking traditions, most
+                                    famously
+                                    seen in the intricate patterns of Inabel weaving, durable Burnay pottery, and a deep
+                                    history of tobacco farming.</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://youtu.be/RQk6jUuZUUo?si=kYKHq8BXn7MNKUBO" target="_blank"
+                        rel="noopener noreferrer">
+                        <div class="info-card">
+                            <img src="../assets/images/ilocos_heritage.jpg" class="card-image">
+                            <div class="card-body">
+                                <div class="card-title">🏛️ Heritage</div>
+                                <div class="card-text">Vigan’s cobblestone streets on Calle Crisologo let you step back
+                                    in
+                                    time and explore the heritage town by traditional Kalesa.</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // 1. Move scrollTab OUTSIDE DOMContentLoaded so the HTML buttons can find it
+        function scrollTab(tabId, direction) {
+            const wrapper = document.getElementById(tabId + '-wrapper');
+            const scrollAmount = 330;
+            wrapper.scrollBy({
+                left: direction === 'left' ? -scrollAmount : scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const mainContent = document.querySelector('.main-content');
+            const tabs = document.querySelectorAll('.tab-header');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const mainContainer = document.getElementById('mainContainer');
+
+
+            // --- ENTRANCE ANIMATION ---
+            setTimeout(() => {
+                mainContent.classList.add('show');
+            }, 100);
+
+
+            // --- NAVIGATION & EXIT LOGIC ---
+            function slideDownAndRedirect(url) {
+                mainContent.classList.remove('show');
+                mainContent.classList.add('exit');
+                setTimeout(() => {
+                    window.location.href = url;
+                }, 600);
+            }
+
+
+            // Close Button
+            document.getElementById('closeBtn').addEventListener('click', () => {
+                slideDownAndRedirect("home.html");
+            });
+
+
+            // Sidebar Links
+            const navLinks = document.querySelectorAll('.sidebar ul li a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const destination = this.getAttribute('href');
+                    slideDownAndRedirect(destination);
+                });
+            });
+
+
+            // --- TAB SWITCHING LOGIC ---
+            function switchTab(tabId) {
+                // Remove active classes
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+
+
+                // Activate selected tab header
+                const activeHeader = document.querySelector(`[data-tab="${tabId}"]`);
+                if (activeHeader) activeHeader.classList.add('active');
+
+
+                // Activate selected content
+                const activeContent = document.getElementById(tabId);
+                if (activeContent) activeContent.classList.add('active');
+
+
+                // Update container theme
+                if (mainContainer) {
+                    mainContainer.classList.remove('pampanga-active', 'ilocos-active');
+                    mainContainer.classList.add(`${tabId}-active`);
+                }
+            }
+
+
+            // Add Click listeners to tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    switchTab(tab.dataset.tab);
+                });
+            });
+
+
+            // --- HASH/URL CHECK ---
+            const currentHash = window.location.hash.substring(1);
+            if (currentHash === "ilocos" || currentHash === "pampanga") {
+                switchTab(currentHash);
+            }
+        });
+    </script>
+
+
+</body>
+
+
+</html>
+

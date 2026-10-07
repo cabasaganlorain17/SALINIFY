@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="welcome-page visible">
+        <div class="container">
+            <img src="assets/images/salin.png" alt="Salinify" class="logo">
+            <div class="site-name">Salinify</div>
+            <div class="welcome-text">Your gateway to Philippine dialect.</div>
+            <div class="cta-start" id="startBtn">Get Started</div>
+        </div>
+    </div>
+
+    <div class="homepage hidden">
+        <div class="nav">
+            <div class="nav-container">
+                <ul>
+                    <img src="assets/images/salinify.png" alt="salinify">
+                    <li><a href="#home"><span class="material-icons">home</span> Home </a></li>
+                    <li><a href="pages/classes.html"><span class="material-icons">school</span> Origin </a> </li>
+
+                    <li class="has-subnav">
+                        <a href="javascript:void(0)" id="learnToggle">
+                            <span class="material-icons">menu_book</span>Dialect
+                        </a>
+                        <ul class="subnav" id="learnSubnav">
+                            <li><a href="pages/clickable+flashcard-pampanga.html">Kapampangan</a></li>
+                            <li><a href="pages/clickable+flashcard-ilocos.html">Ilocano</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="pages/play-ui.html"><span class="material-icons">sports_esports</span> Play </a> </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            <div class="h1"> Dashboard </div>
+            <div class="dashboard">
+                <div class="dashboard-text">
+                    <div class="hi">Welcome, Kabayan!</div>
+                    <p>Ready for today's linguistic challenge? Choose a dialect and start sharpening your expertise</p>
+                </div>
+                <img src="assets/images/dashboard.png" alt="Dashboard Visual">
+            </div>
+            <br>
+            <div class="cl-gs-container">
+                <div class="container-1">
+                    <div class="h1"> Origin </div>
+                    <div class="class-container">
+                        <div class="class-card">
+                            <img src="assets/images/pampanga.png" alt="Pampanga">
+                            <div class="class-sub">
+                                <a href="pages/classes.html#pampanga">Pampanga</a>
+                            </div>
+                        </div>
+
+                        <div class="class-card">
+                            <img src="assets/images/ilocos.png" alt="Ilocos">
+                            <div class="class-sub">
+                                <a href="pages/classes.html#ilocos"> Ilocos </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-1">
+                    <div class="h1"> Get Started </div>
+
+                    <div class="gs-card-row">
+                        <div class="gs-card">
+                            <div class="gs-title">
+                                <a href="pages/plearn-ui.html"><span class="material-icons">menu_book</span> Dialect </a>
+                            </div>
+                            <div class="gs-p"> Master the roots and grammar. </div>
+                        </div>
+
+                        <div class="gs-card">
+                            <div class="gs-title">
+                                <a href="pages/play-ui.html"><span class="material-icons">sports_esports</span> Play </a>
+                            </div>
+                            <div class="gs-p"> Challenge yourself with mini-games. </div>
+                        </div>
+                    </div>
+
+                    <div class="wotd-card">
+                        <div class="wotd-info">
+                            <div class="wotd-header">
+                                <span class="material-icons">auto_awesome</span> Word of the Day
+                            </div>
+                            <div class="wotd-word" id="wotd-title">Salin</div>
+                            <div class="wotd-def" id="wotd-definition">To translate or pour.</div>
+                        </div>
+                        <img src="assets/images/salin.png" alt="salin">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboardModal" class="modal-overlay">
+        <div class="mac-window">
+            <div class="mac-header">
+                <div class="mac-buttons">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <div class="mac-title" id="modalDynamicTitle">Kapampangan Info</div>
+                <div class="close-x" id="closeModal">✖</div>
+            </div>
+
+            <div class="mac-content">
+                <div id="tab-kap" class="dialect-tab active">
+                    <div class="tab-grid">
+                        <div class="tab-left">
+                            <img src="assets/images/pampanga_pop.png" alt="Kapampangan Visual">
+                        </div>
+                        <div class="tab-right scrollable-info">
+                            <h3>Kapampangan</h3>
+                            <ul>
+                                <li>🗣️ Austronesian language spoken in the Philippines</li>
+                                <li>💬 Known for rich and expressive vocabulary</li>
+                                <li>🎧 Has a smooth and melodic sound</li>
+                                <li>✍️ Uses unique words not commonly found</li>
+                                <li>📚 Often used in storytelling and media</li>
+                                <li>🔤 Words may sound different from Tagalog</li>
+                                <li>💡 One of the older native languages</li>
+                            </ul>
+                            <button class="learn-more-btn"
+                                onclick="window.location.href='pages/classes.html#pampanga'">Learn
+                                More</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-ilo" class="dialect-tab">
+                    <div class="tab-grid">
+                        <div class="tab-left">
+                            <img src="assets/images/ilocos_pop.png" alt="Ilocano Visual">
+                        </div>
+                        <div class="tab-right scrollable-info">
+                            <h3>Ilocano</h3>
+                            <ul>
+                                <li>🗣️ Austronesian language widely used</li>
+                                <li>💬 Known for direct and practical expressions</li>
+                                <li>🎧 Has a strong and firm pronunciation</li>
+                                <li>✍️ Shares similarities with northern dialects</li>
+                                <li>📚 Used in daily communication</li>
+                                <li>🔤 Easier to recognize for beginners</li>
+                                <li>💡 One of the most widely spoken</li>
+                            </ul>
+                            <button class="learn-more-btn"
+                                onclick="window.location.href='pages/classes.html#ilocos'">Learn
+                                More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mac-footer-nav">
+                <button class="nav-dot-btn kap-btn" onclick="switchTab('kap')">KAPAMPANGAN</button>
+                <button class="nav-dot-btn ilo-btn active" onclick="switchTab('ilo')"
+                    style="margin-left: auto;">ILOCANO</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>

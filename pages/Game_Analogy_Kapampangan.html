@@ -1,0 +1,1081 @@
+<!doctype html>
+<html lang="en">
+
+
+
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <title>Kapampangan Analogy Game</title>
+
+
+
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      display: flex;
+    }
+
+
+
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Georgia", serif;
+    }
+
+
+
+
+    .analogy_i {
+      width: 100vw;
+      height: 100vh;
+      background-color: #fff8df;
+      position: relative;
+      top: 0;
+      left: 0;
+
+
+
+
+      transform: translateY(100%);
+      transition: transform 0.6s ease;
+
+
+
+
+      z-index: 5;
+    }
+
+
+
+
+    .analogy_i.show {
+      transform: translateY(0);
+    }
+
+
+
+
+    /* ================= SIDEBAR STYLES ================= */
+    .sidebar {
+      width: 100px;
+      height: 100vh;
+      background: #ffffff;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 15px;
+      gap: 20px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 100;
+    }
+
+
+
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+
+
+
+    .sidebar ul li {
+      width: 100%;
+      margin-bottom: 35px;
+      text-align: center;
+    }
+
+
+
+
+    .sidebar ul li a {
+      color: #e59d2c;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 0;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+
+
+
+    .sidebar ul li a:hover {
+      transform: scale(1.15);
+      background-color: #fff8df;
+      color: #8a3b08;
+    }
+
+
+
+
+    .sidebar ul li a .material-icons {
+      font-size: 36px;
+      transition: transform 0.3s ease;
+    }
+
+
+
+
+    .sidebar ul li a:hover .material-icons {
+      transform: rotate(-5deg);
+    }
+
+
+
+
+    .icon {
+      width: 80px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+
+
+
+    .icon img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+
+
+
+    .nav-label {
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-family: "Georgia", sans-serif;
+      letter-spacing: 1px;
+    }
+
+
+
+
+    /* ================= GAME CONTENT STYLES ================= */
+    .container {
+      flex: 1;
+      margin-left: 100px;
+      padding: 40px 60px;
+      display: flex;
+      flex-direction: column;
+    }
+
+
+
+
+    h1 {
+      font-size: 48px;
+      font-family: bright DEMO, arial;
+      color: #2e4365;
+      margin-bottom: 25px;
+      text-align: left;
+    }
+
+
+
+
+    .progress-container {
+      position: relative;
+      width: 80%;
+      margin: 0 auto 40px auto;
+    }
+
+
+
+
+    .progress-bar {
+      width: 100%;
+      height: 35px;
+      border-radius: 25px;
+      border: 6px solid #e3c177;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+
+
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: #8c3b06;
+      border-radius: 25px;
+      transition: width 0.3s ease;
+    }
+
+
+
+
+    .score {
+      position: absolute;
+      top: -30px;
+      right: 10px;
+      font-weight: bold;
+      color: #2e4365;
+      font-size: 18px;
+    }
+
+
+
+
+    .plus-one {
+      position: absolute;
+      right: 50px;
+      top: -10px;
+      font-size: 20px;
+      color: #27ae60;
+      animation: floatUp 1s ease forwards;
+    }
+
+
+
+
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+    }
+
+
+
+
+    .instruction {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+
+
+
+    .question {
+      font-size: 40px;
+      color: #2e4365;
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: center;
+    }
+
+
+
+
+    .question i {
+      margin-left: 8px;
+    }
+
+
+
+
+    .answer-boxes {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 0 auto 40px auto;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 1000px;
+      background: #fff8df;
+    }
+
+
+
+
+    .box {
+      flex: 1;
+      width: 300px;
+      height: 160px;
+      border: 3px solid #8c3b06;
+      border-radius: 20px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      padding: 10px;
+    }
+
+
+
+
+    .box:not(.correct):not(.wrong):hover {
+      transform: scale(1.05);
+      background-color: #f2ebbb;
+    }
+
+
+
+
+    .box.correct {
+      background-color: #b9f9c8;
+    }
+
+
+
+
+    .box.wrong {
+      background-color: #f8d7da;
+    }
+
+
+
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 220px;
+    }
+
+
+
+
+    button {
+      padding: 12px 40px;
+      border: none;
+      border-radius: 12px;
+      background: #8c3b06;
+      color: white;
+      font-weight: bold;
+      font-size: 19px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+
+
+
+    button:hover {
+      background: #2e4365;
+    }
+
+
+
+
+    .circle-container {
+      display: flex;
+      gap: clamp(10px, 2vw, 15px);
+    }
+
+
+
+
+    .circle-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #2e4365;
+      color: white;
+      font-size: clamp(1.25rem, 3vw, 1.5rem);
+      border: none;
+      cursor: pointer;
+      box-shadow: 2px 2px 0px #f28c28;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+
+
+
+    .circle-btn:hover {
+      background-color: #8c3b06;
+    }
+
+
+    button:disabled,.circle-btn:disabled {
+      background-color: #a1a1a1 !important;
+      color: #d3d3d3 !important;          
+      cursor: not-allowed;              
+      transform: none !important;        
+      box-shadow: none !important;
+      opacity: 0.6;
+    }
+
+
+    .hint-container {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 20px;
+    }
+
+
+
+
+    #hintBox {
+      max-width: 60%;
+      margin: 0 auto 30px auto;
+      padding: 15px 25px;
+      background: #ffffff;
+      border: 3px solid #e3c177;
+      border-radius: 15px;
+      display: inline-block;
+      text-align: left;
+      font-weight: bold;
+      color: #2e4365;
+      animation: fadeIn 0.3s ease;
+    }
+
+
+
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+
+
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 90%;
+      max-width: 1000px;
+      margin: auto auto 20px auto;
+    }
+
+
+
+
+    .action-buttons, .nav-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+
+
+
+    #congratsScreen {
+      position: fixed;
+      top: 0;
+      left: 100px;
+      width: calc(100vw - 100px);
+      height: 100vh;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 8;
+      background-color: #fff8df;
+    }
+
+
+
+
+    #congratsScreen::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('../assets/images/green1.png');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.3;
+      z-index: -1;
+    }
+
+
+
+
+    .congrats {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+
+
+
+    .card {
+      width: 750px;
+      height: auto;
+      padding: 40px 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+
+
+
+    .card-gif {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+
+
+
+    .card-img {
+      height: 200px;
+      z-index: 1;
+    }
+
+
+
+
+    .card p {
+      z-index: 2;
+      position: relative;
+    }
+
+
+
+
+    .card h1 {
+      font-size: 50px;
+      color: #2e4365;
+      z-index: 2;
+    }
+
+
+
+
+    /* Score styling in Congrats Card */
+    #finalScore {
+      font-size: 32px;
+      color: #8c3b06;
+      font-weight: bold;
+      z-index: 2;
+      margin: 0;
+    }
+
+
+
+
+    .button-group {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+
+
+
+    .button {
+      background-color: #2e4365;
+      width: 130px;
+      height: 45px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .restart-btn {
+      background-color: #8c3b06;
+    }
+
+    .button p {
+      color: #fff;
+    }
+
+
+    .btn-brown {
+      min-width: 160px;
+      text-align: center;
+    }
+
+
+    button:disabled{
+      background-color: #a1a1a1 !important;
+      color: #d3d3d3 !important;          
+      cursor: not-allowed;              
+      transform: none !important;        
+      box-shadow: none !important;
+    }
+       
+  </style>
+</head>
+
+
+
+
+<body>
+  <div class="sidebar">
+    <div class="icon">
+      <img src="../assets/images/salinify.png" alt="Salin Icon">
+    </div>
+    <ul>
+      <li><a href="home.html"><span class="material-icons">home</span><span class="nav-label">Home</span></a></li>
+      <li><a href="classes.html"><span class="material-icons">school</span><span class="nav-label">Origin</span></a></li>
+      <li><a href="learn-ui.html"><span class="material-icons">menu_book</span><span class="nav-label">Dialect</span></a></li>
+      <li><a href="play-ui.html"><span class="material-icons">sports_esports</span><span class="nav-label">Play</span></a></li>
+    </ul>
+  </div>
+
+
+
+
+  <div class="analogy_i">
+    <div id="quizContainer" class="container">
+      <h1>Kapampangan</h1>
+
+
+
+
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress" id="progress"></div>
+        </div>
+        <div class="score" id="score">0 / 20</div>
+      </div>
+
+
+
+
+      <div class="instruction">
+        Instruction: Choose the word that best completes the analogy.
+      </div>
+
+
+
+
+      <div class="question" id="question">Imá : _____</div>
+
+
+
+
+      <div class="answer-boxes">
+        <div class="box">Mother</div>
+        <div class="box">Sister</div>
+        <div class="box">Niece</div>
+      </div>
+
+
+
+
+      <div class="hint-container">
+        <div id="hintBox"></div>
+      </div>
+
+
+
+
+      <div class="footer-row">
+        <div class="action-buttons">
+          <button id="hintBtn" class="btn-brown" onclick="showHint()">HINT: III</button>
+          <button id="revealBtn" class="btn-brown" onclick="revealAnswer()">REVEAL: III</button>
+        </div>
+
+
+
+
+        <div class="circle-container">
+          <button class="circle-btn" onclick="goPrevious()">&lt;</button>
+          <button id="nextBtn"class="circle-btn" onclick="goNext()">&gt;</button>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const bg = document.querySelector('.analogy_i');
+
+
+
+
+        setTimeout(() => {
+          bg.classList.add('show');
+        }, 100);
+
+
+
+
+        const navLinks = document.querySelectorAll('.sidebar ul li a');
+        navLinks.forEach(link => {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetUrl = this.getAttribute('href');
+            bg.classList.remove('show');
+            setTimeout(() => {
+              window.location.href = targetUrl;
+            }, 800);
+          });
+        });
+      });
+
+
+
+
+      const questions = [
+        { word: "Íma : _____", choices: ["Kapatid na babae", "Ina", "Pamangkin"], answer: "Ina", hint: "Magulang na babae" },
+        { word: "Tatáng : _____", choices: ["Kapatid na lalaki", "Tiyuhin", "Ama"], answer: "Ama", hint: "Magulang na lalaki" },
+        { word: "Àtchi : _____", choices: ["Ate", "Ina", "Neneng"], answer: "Ate", hint: "Matandang kapatid na babae" },
+        { word: "Kóya : _____", choices: ["Lolo", "Kuya", "Ama"], answer: "Kuya", hint: "Matandang kapatid na lalaki" },
+        { word: "Malagú : _____", choices: ["Mainit", "Maganda", "Pangit"], answer: "Maganda", hint: "Kaakit-akit na anyo" },
+        { word: "Masantíng : _____", choices: ["Matangkad", "Mainit", "Gwapo"], answer: "Gwapo", hint: "Gwapong lalaki" },
+        { word: "Mapalí : _____", choices: ["Maligamgam", "Mainit", "Malamig"], answer: "Mainit", hint: "Kabaligtaran ng malamig" },
+        { word: "Marimlá : _____", choices: ["Tuyo", "Mainit", "Malamig"], answer: "Malamig", hint: "Kabaligtaran ng mainit" },
+        { word: "Mayap á abák : _____", choices: ["Magandang Hapon", "Magandang Umaga", "Magandang Gabi"], answer: "Magandang Umaga", hint: "Pagbati sa umaga" },
+        { word: "Mayap á gatpanapún : _____", choices: ["Magandang Hapon", "Magandang Gabi", "Magandang Umaga"], answer: "Magandang Hapon", hint: "Pagbati sa hapon" },
+        { word: "Mayap á béngi : _____", choices: ["Magandang Hapon", "Magandang Gabi", "Magandang Umaga"], answer: "Magandang Gabi", hint: "Pagbati sa gabi" },
+        { word: "Dakal á Salamat : _____", choices: ["Walang anuman", "Maraming salamat", "Paumanhin"], answer: "Maraming salamat", hint: "Pagpapakita ng pasasalamat" },
+        { word: "Pamangan : _____", choices: ["Pagkain", "Meryenda", "Inumin"], answer: "Pagkain", hint: "Bagay na kinakain" },
+        { word: "Nasi : _____", choices: ["Tinapay", "Kanin", "Sabaw"], answer: "Kanin", hint: "Pangunahing pagkain" },
+        { word: "Gulé : _____", choices: ["Karne", "Prutas", "Gulay"], answer: "Gulay", hint: "Masustansyang pagkain mula sa halaman" },
+        { word: "Busbus : _____", choices: ["Isda", "Prutas", "Bigas"], answer: "Prutas", hint: "Matamis na natural na pagkain" },
+        { word: "Bunduk : _____", choices: ["Bundok", "Lawa", "Ilog"], answer: "Bundok", hint: "Mataas na anyong lupa" },
+        { word: "Dayat Malat : _____", choices: ["Ilog", "Dagat", "Lawa"], answer: "Dagat", hint: "Malaking anyong tubig na maalat" },
+        { word: "Tanaman : _____", choices: ["Bulaklak", "Damo", "Puno"], answer: "Puno", hint: "Mataas na halaman" },
+        { word: "Ilug : _____", choices: ["Ilog", "Lawa", "Sapa"], answer: "Ilog", hint: "Umaagos na tubig" }
+      ];
+
+
+
+
+      let hintsLeft = 3;
+      let revealsLeft = 3;
+      let currentQuestion = 0;
+      shuffleArray(questions);
+      questions.forEach(q => shuffleArray(q.choices));
+      let userAnswers = new Array(questions.length).fill(null);
+      let revealed = new Array(questions.length).fill(false);
+      let attemptsCount = new Array(questions.length).fill(0);
+
+
+
+
+      const questionText = document.getElementById("question");
+      const boxes = document.querySelectorAll(".box");
+      const progressBar = document.getElementById("progress");
+      const scoreElement = document.getElementById("score");
+
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+
+      function updateScore() {
+        const correctAnswers = userAnswers.filter((ans, idx) => ans === questions[idx].answer && !revealed[idx]).length;
+        scoreElement.innerText = `${correctAnswers} / ${questions.length}`;
+        return correctAnswers;
+      }
+
+
+
+
+      function loadQuestion() {
+        document.getElementById("hintBox").style.display = "none";
+        let q = questions[currentQuestion];
+
+
+
+
+        if (revealed[currentQuestion] || userAnswers[currentQuestion] === q.answer) {
+          questionText.innerHTML = q.word.replace("_____", "<i>" + q.answer + "</i>");
+        } else {
+          questionText.innerHTML = q.word;
+        }
+
+
+
+
+        boxes.forEach((box, index) => {
+          box.innerText = q.choices[index];
+          box.classList.remove("correct", "wrong");
+          if (userAnswers[currentQuestion] !== null) {
+            if (q.choices[index] === q.answer) box.classList.add("correct");
+            else if (q.choices[index] === userAnswers[currentQuestion]) box.classList.add("wrong");
+          }
+          if (revealed[currentQuestion] && q.choices[index] === q.answer) box.classList.add("correct");
+          box.onclick = (e) => checkAnswer(q.choices[index], e);
+        });
+       
+      updateProgress((currentQuestion / questions.length) * 100);
+      updateNavigation();
+    }
+
+
+      function checkAnswer(choice, e) {
+        let q = questions[currentQuestion];
+        const correctSound = document.getElementById("correctSound");
+        const wrongSound = document.getElementById("wrongSound");
+
+
+        if (revealed[currentQuestion]) {
+          if (choice === q.answer) {
+            e.target.classList.add("correct");
+            correctSound.play().catch(d => {});
+            setTimeout(() => nextQuestion(), 600);
+          } else {
+            e.target.classList.add("wrong");
+            wrongSound.play().catch(d => {});
+          }
+          return;
+        }
+
+
+        attemptsCount[currentQuestion]++;
+
+
+        if (choice === q.answer) {
+          correctSound.play().catch(d => {});
+          e.target.classList.add("correct");
+
+
+          if (attemptsCount[currentQuestion] <= 2) {
+            userAnswers[currentQuestion] = choice;
+            const plusOne = document.createElement("div");
+            plusOne.classList.add("plus-one");
+            plusOne.innerText = "+1";
+            document.querySelector(".progress-container").appendChild(plusOne);
+            setTimeout(() => plusOne.remove(), 1000);
+          } else {
+            userAnswers[currentQuestion] = "no-point";
+          }
+
+
+          questionText.innerHTML = q.word.replace("_____", "<i>" + q.answer + "</i>");
+          updateScore();
+          updateNavigation();
+          setTimeout(() => nextQuestion(), 800);
+
+
+        } else {
+          wrongSound.play().catch(d => {});
+          e.target.classList.add("wrong");
+          if (attemptsCount[currentQuestion] >= 2) {
+            userAnswers[currentQuestion] = "no-point";
+          }
+          updateScore();
+        }
+        updateNavigation();
+      }
+
+
+      function revealAnswer() {
+        if (revealed[currentQuestion] || userAnswers[currentQuestion] === questions[currentQuestion].answer) return;
+        if (revealsLeft <= 0) return;
+
+
+        revealsLeft--;
+        updateButtonLabels();
+
+
+        const revealSound = document.getElementById("revealSound");
+        revealSound.play().catch(d => {});
+
+
+        let q = questions[currentQuestion];
+        revealed[currentQuestion] = true;
+        questionText.innerHTML = q.word.replace("_____", "<i>" + q.answer + "</i>");
+
+
+        boxes.forEach((box) => {
+          box.classList.remove("wrong", "correct");
+          if (box.innerText === q.answer) box.classList.add("correct");
+        });
+        updateNavigation();
+      }
+
+
+      function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < questions.length) loadQuestion();
+        else showCongrats();
+      }
+
+
+      function goNext() {
+        const isSolved = (userAnswers[currentQuestion] === questions[currentQuestion].answer) || revealed[currentQuestion];
+ 
+          if (isSolved) {
+            nextQuestion();
+          } else {
+          }
+        }
+
+
+      function goPrevious() {
+        if (currentQuestion > 0) {
+          currentQuestion--;
+          loadQuestion();
+        }
+      }
+
+
+      function updateNavigation() {
+        const nextBtn = document.getElementById("nextBtn");
+        const isSolved = (userAnswers[currentQuestion] === questions[currentQuestion].answer) || revealed[currentQuestion];
+        nextBtn.disabled = !isSolved;
+      }
+
+
+      function showHint() {
+        if (hintsLeft <= 0) return;
+        const hintSound = document.getElementById("hintSound");
+        hintSound.play().catch(d => {});
+
+
+        const hintBox = document.getElementById("hintBox");
+        hintBox.innerText = "Hint: " + questions[currentQuestion].hint;
+        hintBox.style.display = "block";
+        hintsLeft--;
+        updateButtonLabels();
+      }
+
+
+
+
+      function updateProgress(value) {
+        progressBar.style.width = value + "%";
+      }
+     
+      function updateButtonLabels() {
+      const hintIcons = "I".repeat(hintsLeft);
+      const revealIcons = "I".repeat(revealsLeft);
+     
+      const hBtn = document.getElementById("hintBtn");
+      const rBtn = document.getElementById("revealBtn");
+
+
+      hBtn.innerText = `HINT: ${hintIcons || "NONE"}`;
+      rBtn.innerText = `REVEAL: ${revealIcons || "NONE"}`;
+
+
+      if (hintsLeft <= 0) {
+        hBtn.disabled = true;
+      } else {
+        hBtn.disabled = false;
+      }
+
+
+      if (revealsLeft <= 0) {
+        rBtn.disabled = true;
+      } else {
+        rBtn.disabled = false;
+      }
+    }
+ 
+      function showCongrats() {
+        const screen = document.getElementById("congratsScreen");
+        const finalScoreText = document.getElementById("finalScore");
+       
+        const totalScore = updateScore();
+        finalScoreText.innerText = `Score: ${totalScore} / ${questions.length}`;
+       
+        screen.style.display = "flex";
+        const sound = document.getElementById("congratsSound");
+        sound.play().catch(error => console.log("Audio failed:", error));
+      }
+
+
+      function restartGame() {
+        currentQuestion = 0;
+        hintsLeft = 3;
+        revealsLeft = 3;
+        updateButtonLabels();
+        shuffleArray(questions);
+        questions.forEach(q => shuffleArray(q.choices));
+        userAnswers.fill(null);
+        revealed.fill(false);
+        attemptsCount.fill(0);
+        updateProgress(0);
+        updateScore();
+        document.getElementById("congratsScreen").style.display = "none";
+        loadQuestion();
+      }
+
+
+
+
+      loadQuestion();
+    </script>
+
+
+
+
+    <div id="congratsScreen">
+      <div class="congrats">
+        <div class="card">
+          <img src="../assets/images/confetti.gif" class="card-gif" />
+          <img src="../assets/images/sali_congrats.png" class="card-img" />
+          <h1>Congratulations!</h1>
+          <p id="finalScore">Score: 0 / 20</p>
+          <p>You did a great job on this game.</p>
+        </div>
+        <audio id="congratsSound" src="../assets/audio/congrats.mp3" preload="auto"></audio>
+        <div class="button-group">
+          <div class="button restart-btn" onclick="restartGame()">
+            <p>Restart</p>
+          </div>
+          <div class="button" onclick="window.location.href='play-ui.html'">
+            <p>Back</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <audio id="correctSound" src="../assets/audio/correct.mp3" preload="auto"></audio>
+    <audio id="wrongSound" src="../assets/audio/wrong.mp3" preload="auto"></audio>
+    <audio id="revealSound" src="../assets/audio/reveal.mp3" preload="auto"></audio>
+    <audio id="hintSound" src="../assets/audio/hint.mp3" preload="auto"></audio>
+  </div>
+</body>
+
+
+
+
+</html>

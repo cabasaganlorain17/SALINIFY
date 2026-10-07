@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<title> Salinify </title>
+
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #fff8df;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .background {
+            width: 100vw;
+            height: 100vh;
+            background-color: #fff8df;
+            background-image: linear-gradient(rgba(255, 248, 223, 0.8),
+                    rgba(255, 248, 223, 0.3)), url('../assets/images/green1.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            position: relative;
+            top: 0;
+            left: 0;
+            transform: translateY(100%);
+            transition: transform 0.6s ease;
+            z-index: 5;
+        }
+
+        .background.show {
+            transform: translateY(0);
+        }
+
+        .learn-ui {
+            width: calc(100% - 100px);
+            min-height: 100vh;
+            box-sizing: border-box;
+            position: relative;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin-left: 100px;
+            padding-top: 70px;
+            padding-left: 0;
+            gap: 20px;
+        }
+
+        /* ================= SIDEBAR (INTEGRATED) ================= */
+        .sidebar {
+            width: 100px;
+            height: 100vh;
+            background: #ffffff;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 15px;
+            gap: 20px;
+            position: fixed; /* Changed to fixed to stay during background transitions */
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .sidebar ul li {
+            width: 100%;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+        .sidebar ul li a {
+            color: #e59d2c;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 0;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar ul li a:hover {
+            transform: scale(1.15);
+            background-color: #fff8df;
+            color: #8a3b08;
+        }
+
+        .sidebar ul li a .material-icons {
+            font-size: 36px;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar ul li a:hover .material-icons {
+            transform: rotate(-5deg);
+        }
+
+        .icon {
+            width: 80px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .icon img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-family: "Georgia", sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* ================= CONTENT STYLES ================= */
+        .section-header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .section-header h2 {
+            font-family: 'bright DEMO', serif;
+            font-size: 42px;
+            color: #8a3b08;
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 70px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            padding-right: 40px;
+            position: absolute;
+            top: 20px;
+        }
+
+        .exit-btn {
+            background: #2e4365;
+            color: #fff;
+            border: none;
+            padding: 10px 50px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 20px;
+            font-family: "Georgia", sans-serif;
+        }
+
+        .exit-btn:hover {
+            background: #ff4d4d;
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            width: 380px;
+            height: 450px;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .card:hover { transform: scale(1.05); }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+            max-height: 250px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .card h1 {
+            font-family: 'bright DEMO';
+            font-size: 40px;
+            color: #2e4365;
+            margin-bottom: 10px;
+        }
+
+        .card-info { margin-top: -10px; margin-bottom: 10px; padding: 0 10px; }
+
+        .dialect-phrase {
+            font-family: "Georgia", serif;
+            font-style: italic;
+            font-size: 18px;
+            color: #e59d2c;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .tagalog-sub {
+            font-family: sans-serif;
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .card-link:hover { transform: scale(1.05); z-index: 10; }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="icon">
+            <img src="../assets/images/salinify.png" alt="Salin Icon">
+        </div>
+        <ul>
+            <li><a href="home.html"><span class="material-icons">home</span><span class="nav-label">Home</span></a></li>
+            <li><a href="classes.html"><span class="material-icons">school</span><span class="nav-label">Origin</span></a></li>
+            <li><a href="learn-ui.html"><span class="material-icons">menu_book</span><span class="nav-label">Dialect</span></a></li>
+            <li><a href="play-ui.html"><span class="material-icons">sports_esports</span><span class="nav-label">Play</span></a></li>
+        </ul>
+    </div>
+
+    <div class="background">
+        <div class="learn-ui">
+            <div class="header">
+                <button class="exit-btn">Exit</button>
+            </div>
+            <div class="section-header">
+                <h2>Learning Dialects</h2>
+                <p>Pick a language to start your journey</p>
+            </div>
+
+            <div class="card-container">
+                <a href="clickable+flashcard-pampanga.html" class="card-link">
+                    <div class="card" style="animation-delay: 0.1s;">
+                        <h1>Kapampangan</h1>
+                        <div class="card-info">
+                            <p class="dialect-phrase">"Masanting ya ing amanung Kapampangan!"</p>
+                            <p class="tagalog-sub">Ang wikang Kapampangan ay maganda!</p>
+                        </div>
+                        <img src="../assets/images/kapampangan.png">
+                    </div>
+                </a>
+
+                <a href="clickable+flashcard-ilocos.html" class="card-link">
+                    <div class="card" style="animation-delay: 0.3s;">
+                        <h1>Ilocano</h1>
+                        <div class="card-info">
+                            <p class="dialect-phrase">"Napintas ti agadal ti Ilocano!"</p>
+                            <p class="tagalog-sub">Magandang mag-aral ng Ilocano!</p>
+                        </div>
+                        <img src="../assets/images/ilocano.png">
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const bg = document.querySelector('.background');
+
+            // 1. AUTO SLIDE UP
+            setTimeout(() => {
+                bg.classList.add('show');
+            }, 100);
+
+            function slideDownAndRedirect(url) {
+                if (bg.classList.contains('show')) {
+                    bg.classList.remove('show');
+                    setTimeout(() => {
+                        window.location.href = url;
+                    }, 600);
+                }
+            }
+
+            // 2. EXIT BUTTON LOGIC
+            const exitBtn = document.querySelector(".exit-btn");
+            if (exitBtn) {
+                exitBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    const destination = document.referrer ? document.referrer : "home.html";
+                    slideDownAndRedirect(destination);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

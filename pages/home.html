@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <div class="homepage">
+        <div class="nav">
+            <div class="nav-container">
+                <ul>
+                    <img src="../assets/images/salinify.png" alt="salinify">
+                    <li><a href="#home"><span class="material-icons">home</span> Home </a></li>
+                    <li><a href="classes.html"><span class="material-icons">school</span> Origin </a> </li>
+
+                    <li class="has-subnav">
+                        <a href="javascript:void(0)" id="learnToggle">
+                            <span class="material-icons">menu_book</span>Dialect
+                        </a>
+                        <ul class="subnav" id="learnSubnav">
+                            <li><a href="clickable+flashcard-pampanga.html">Kapampangan</a></li>
+                            <li><a href="clickable+flashcard-ilocos.html">Ilocano</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="play-ui.html"><span class="material-icons">sports_esports</span> Play </a> </li>
+                </ul>
+            </div>
+        </div>
+        <div class="content">
+            <div class="h1"> Dashboard </div>
+            <div class="dashboard">
+                <div class="dashboard-text">
+                    <div class="hi">Welcome, Kabayan!</div>
+                    <p>Ready for today's linguistic challenge? Choose a dialect and start sharpening your expertise</p>
+                </div>
+                <img src="../assets/images/dashboard.png" alt="Dashboard Visual">
+            </div>
+            <br>
+            <div class="cl-gs-container">
+                <div class="container-1">
+                    <div class="h1"> Origin </div>
+                    <div class="class-container">
+                        <div class="class-card">
+                            <img src="../assets/images/pampanga.png" alt="Pampanga">
+                            <div class="class-sub">
+                                <a href="classes.html#pampanga">Pampanga</a>
+                            </div>
+                        </div>
+
+                        <div class="class-card">
+                            <img src="../assets/images/ilocos.png" alt="Ilocos">
+                            <div class="class-sub">
+                                <a href="classes.html#ilocos"> Ilocos </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-1">
+                    <div class="h1"> Get Started </div>
+                    <div class="gs-card-row">
+                        <div class="gs-card">
+                            <div class="gs-title">
+                                <a href="learn-ui.html"><span class="material-icons">menu_book</span> Dialect </a>
+                            </div>
+                            <div class="gs-p"> Master the roots and grammar. </div>
+                        </div>
+
+                        <div class="gs-card">
+                            <div class="gs-title">
+                                <a href="play-ui.html"><span class="material-icons">sports_esports</span> Play </a>
+                            </div>
+                            <div class="gs-p"> Challenge yourself with mini-games. </div>
+                        </div>
+                    </div>
+
+                    <div class="wotd-card">
+                        <div class="wotd-info">
+                            <div class="wotd-header">
+                                <span class="material-icons">auto_awesome</span> Word of the Day
+                            </div>
+                            <div class="wotd-word" id="wotd-title">Salin</div>
+                            <div class="wotd-def" id="wotd-definition">To translate or pour.</div>
+                        </div>
+                        <img src="../assets/images/salin.png" alt="salin">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboardModal" class="modal-overlay">
+        <div class="mac-window">
+            <div class="mac-header">
+                <div class="mac-buttons">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <div class="mac-title" id="modalDynamicTitle">Kapampangan Info</div>
+                <div class="close-x" id="closeModal">✖</div>
+            </div>
+
+            <div class="mac-content">
+                <div id="tab-kap" class="dialect-tab active">
+                    <div class="tab-grid">
+                        <div class="tab-left">
+                            <img src="../assets/images/pampanga_pop.png" alt="Kapampangan Visual">
+                        </div>
+                        <div class="tab-right scrollable-info">
+                            <h3>Kapampangan</h3>
+                            <ul>
+                                <li>🗣️ Austronesian language spoken in the Philippines</li>
+                                <li>💬 Known for rich and expressive vocabulary</li>
+                                <li>🎧 Has a smooth and melodic sound</li>
+                                <li>✍️ Uses unique words not commonly found</li>
+                                <li>📚 Often used in storytelling and media</li>
+                                <li>🔤 Words may sound different from Tagalog</li>
+                                <li>💡 One of the older native languages</li>
+                            </ul>
+                            <button class="learn-more-btn"
+                                onclick="window.location.href='classes.html#pampanga'">Learn
+                                More</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-ilo" class="dialect-tab">
+                    <div class="tab-grid">
+                        <div class="tab-left">
+                            <img src="../assets/images/ilocos_pop.png" alt="Ilocano Visual">
+                        </div>
+                        <div class="tab-right scrollable-info">
+                            <h3>Ilocano</h3>
+                            <ul>
+                                <li>🗣️ Austronesian language widely used</li>
+                                <li>💬 Known for direct and practical expressions</li>
+                                <li>🎧 Has a strong and firm pronunciation</li>
+                                <li>✍️ Shares similarities with northern dialects</li>
+                                <li>📚 Used in daily communication</li>
+                                <li>🔤 Easier to recognize for beginners</li>
+                                <li>💡 One of the most widely spoken</li>
+                            </ul>
+                            <button class="learn-more-btn"
+                                onclick="window.location.href='classes.html#ilocos'">Learn
+                                More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mac-footer-nav">
+                <button class="nav-dot-btn kap-btn" onclick="switchTab('kap')">KAPAMPANGAN</button>
+                <button class="nav-dot-btn ilo-btn active" onclick="switchTab('ilo')"
+                    style="margin-left: auto;">ILOCANO</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const homepage = document.querySelector(".homepage");
+            const classSection = document.getElementById("classes");
+            const navLinks = document.querySelectorAll('.nav a');
+
+            if (homepage) {
+                setTimeout(() => {
+                    homepage.classList.add("show");
+                    updateActiveNav();
+                }, 100);
+            }
+
+            function setupToggle() {
+                const learnBtn = document.getElementById("learnToggle");
+                const learnSubnav = document.getElementById("learnSubnav");
+
+                if (learnBtn && learnSubnav) {
+                    learnBtn.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        learnSubnav.classList.toggle("show-menu");
+                        const isOpen = learnSubnav.classList.contains("show-menu");
+                        learnBtn.classList.toggle("active", isOpen);
+                    });
+                }
+
+                document.addEventListener("click", function (e) {
+                    if (learnSubnav && learnSubnav.classList.contains("show-menu")) {
+                        if (!learnBtn.contains(e.target) && !learnSubnav.contains(e.target)) {
+                            learnSubnav.classList.remove("show-menu");
+                            learnBtn.classList.remove("active");
+                        }
+                    }
+                });
+            }
+            setupToggle();
+
+            // Word of the Day Logic
+            const dictionary = [
+                { eng: "Mother", tag: "Nanay", kap: "Íma", ilo: "Inán" },
+                { eng: "Father", tag: "Tatay", kap: "Tatáng", ilo: "Amá" },
+                { eng: "Older sister", tag: "Àte", kap: "Àtchi", ilo: "Manáng" },
+                { eng: "Older brother", tag: "Kúya", kap: "Kóya", ilo: "Manóng" },
+                { eng: "Beautiful", tag: "Maganda", kap: "Malagú", ilo: "Napíntas" },
+                { eng: "Handsome", tag: "Gwapo", kap: "Masantíng", ilo: "Natarakí" },
+                { eng: "Hot", tag: "Mainit", kap: "Mapalí", ilo: "Napudót" },
+                { eng: "Cold", tag: "Malamíg", kap: "Marimlá", ilo: "Nalamíis" },
+                { eng: "Good Morning", tag: "Magandáng Umaga", kap: "Mayap á abák", ilo: "Naimbág nga bigát" },
+                { eng: "Good Afternoon", tag: "Magandáng Hapon", kap: "Mayap á gatpanapún", ilo: "Naimbág nga malém" },
+                { eng: "Good Evening", tag: "Magandáng Gabi", kap: "Mayap á béngi", ilo: "Naimbág nga rabí-i" },
+                { eng: "Thank you very much", tag: "Maraming salamat", kap: "Dakal á Salamat", ilo: "Agyamanák Unay" },
+                { eng: "Food", tag: "Pagkain", kap: "Pamangan", ilo: "Makan" },
+                { eng: "Cooked Rice", tag: "Kanin", kap: "Nasi", ilo: "Inapúy" },
+                { eng: "Vegetable", tag: "Gulay", kap: "Gulé", ilo: "Naténg" },
+                { eng: "Fruit", tag: "Prutas", kap: "Busbus", ilo: "Bunga" },
+                { eng: "Mountain", tag: "Bundok", kap: "Bunduk", ilo: "Bantáy" },
+                { eng: "Ocean/Sea", tag: "Karagatan/Dagat", kap: "Dayat Malat", ilo: "Baybay" },
+                { eng: "Tree", tag: "Puno", kap: "Tanaman", ilo: "Kayú" },
+                { eng: "River", tag: "Ilog", kap: "Ilug", ilo: "Karayan" }
+            ];
+
+            const titleElement = document.getElementById('wotd-title');
+            const defElement = document.getElementById('wotd-definition');
+
+            if (titleElement && defElement) {
+                const now = new Date();
+                const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+                const word = dictionary[dayOfYear % dictionary.length];
+                titleElement.innerText = word.eng;
+                defElement.innerHTML = `<strong>Tagalog:</strong> ${word.tag} | <strong>Kapampangan:</strong> ${word.kap} | <strong>Ilokano:</strong> ${word.ilo}`;
+            }
+
+            // Highlighting active nav
+            function updateActiveNav() {
+                navLinks.forEach(link => link.classList.remove('active'));
+                const homepageLink = document.querySelector('.nav a[href="#home"]');
+                if (homepageLink) homepageLink.classList.add('active');
+            }
+
+            // Modal Logic
+            const modal = document.getElementById("dashboardModal");
+            const dashboard = document.querySelector(".dashboard");
+            const closeModal = document.getElementById("closeModal");
+
+            if (dashboard && modal) {
+                dashboard.addEventListener("click", (e) => {
+                    if (e.target.tagName === 'A' || e.target.parentElement.tagName === 'A') return;
+                    modal.classList.add("show-modal");
+                    switchTab('kap');
+                });
+            }
+
+            if (closeModal) {
+                closeModal.addEventListener("click", () => {
+                    modal.classList.add("modal-closing");
+                    setTimeout(() => {
+                        modal.classList.remove("show-modal");
+                        modal.classList.remove("modal-closing");
+                    }, 300);
+                });
+            }
+        });
+
+        function switchTab(dialect) {
+            document.querySelectorAll('.dialect-tab').forEach(tab => tab.classList.remove('active'));
+            const targetTab = document.getElementById('tab-' + dialect);
+            if (targetTab) targetTab.classList.add('active');
+
+            document.querySelectorAll('.nav-dot-btn').forEach(btn => btn.classList.remove('active'));
+            const targetBtn = document.querySelector('.' + dialect + '-btn');
+            if (targetBtn) targetBtn.classList.add('active');
+
+            const title = document.getElementById('modalDynamicTitle');
+            if (title) {
+                title.innerText = (dialect === 'kap') ? 'Kapampangan Dialect' : 'Ilocano Dialect';
+            }
+        }
+    </script>
+</body>
+</html>

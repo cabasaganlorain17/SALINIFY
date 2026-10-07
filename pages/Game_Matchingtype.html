@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Matching Game - Ilocano</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Georgia, serif;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #FFF8DF;
+      overflow-x: hidden;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+      background-color: #FFF8DF;
+    }
+
+    /* Sidebar - Preserved Layout */
+    .sidebar {
+      width: 100px;
+      height: 100vh;
+      background: #ffffff;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 15px;
+      gap: 20px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 100;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .sidebar ul li {
+      width: 100%;
+      margin-bottom: 35px;
+      text-align: center;
+    }
+
+    /* Link and Icon Styling */
+    .sidebar ul li a {
+      color: #e59d2c;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 0;
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Hover Effects */
+    .sidebar ul li a:hover {
+      transform: scale(1.15);
+      background-color: #fff8df;
+      color: #8a3b08;
+    }
+
+    .sidebar ul li a .material-icons {
+      font-size: 36px;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar ul li a:hover .material-icons {
+      transform: rotate(-5deg);
+    }
+
+    .icon {
+      width: 80px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .icon img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .nav-label {
+      font-size: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-family: "Georgia", sans-serif;
+      letter-spacing: 1px;
+    }
+
+    /* Panel and Title */
+    .panel {
+      background: #FFF8DF;
+      flex: 1;
+      padding: 40px;
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      margin-left: 120px;
+    }
+
+    .Ilocano {
+      font-family: 'bright demo', serif;
+      font-size: 50px;
+      color: #2e4365;
+      font-weight: bold;
+      position: relative;
+      top: -20px;
+    }
+
+    /* Progress and Points */
+    .progress-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 80%;
+      margin: 0 auto 25px auto;
+      position: relative;
+    }
+
+    .progress {
+      flex: 1;
+      height: 35px;
+      background: #FAFAFA;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 5px solid #eccb87;
+      margin-right: 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 25px;
+      width: 0%;
+      background: #8A3B08;
+      transition: width 0.3s ease;
+    }
+
+    .points {
+      position: absolute;
+      font-weight: bold;
+      color: #2e4365;
+      font-size: 18px;
+      top: -30px;
+      right: 50px;
+    }
+
+    .plus-one {
+      position: absolute;
+      right: 90px;
+      top: -10px;
+      font-size: 20px;
+      color: #27ae60;
+      animation: floatUp 1s ease forwards;
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-30px); }
+    }
+
+    .instruction {
+      font-family: Georgia;
+      font-size: 20px;
+      color: #000000;
+    }
+
+    /* 8 Column x 5 Row Grid Layout */
+    .word-boxes {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(5, auto);
+      gap: 12px;
+      margin: 30px 0;
+    }
+
+    /* Updated Word Box: White with Brown Border */
+    .word-box {
+      background: #ffffff;
+      border: 3px solid #8A3B08;
+      border-radius: 8px;
+      padding: 10px 4px;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: bold;
+      color: #8A3B08;
+      box-shadow: 0 4px 0px #8A3B08;
+      transition: all 0.2s ease;
+      min-height: 80px;
+      word-wrap: break-word;
+    }
+
+    .word-box:hover {
+      background: #fdfae5;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 0px #8A3B08;
+    }
+
+    .word-box.matched {
+      visibility: hidden;
+    }
+
+    .shake {
+      animation: shake 0.4s;
+      background: #ff7675 !important;
+      color: white !important;
+      border-color: #d63031 !important;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    /* Action Bar (Removed Nav Buttons) */
+    .action-bar {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .pair-btn {
+      background: #8A3B08;
+      color: #fff;
+      font-weight: bold;
+      text-transform: uppercase;
+      padding: 12px 25px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 14px;
+      border: none;
+      box-shadow: 0 4px 10px rgba(138, 59, 8, 0.3);
+      transition: all 0.2s;
+    }
+
+    .pair-btn:hover { background: #a3480c; transform: scale(1.05); }
+
+    /* Container for Matched Pairs (Brownish Border Visibility) */
+    .pair-words {
+      background: #ffffff;
+      border: 3px solid #8A3B08;
+      border-radius: 12px;
+      padding: 25px;
+      display: none;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 10px;
+      margin-bottom: 50px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      animation: slideDown 0.4s ease forwards;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .pair {
+      background: #fcf1cc;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 13px;
+      color: #8A3B08;
+      font-weight: bold;
+      border: 1px solid #eccb87;
+    }
+
+    /* Enhanced Congrats Screen from Kapampangan version */
+    /* Enhanced Congrats Screen from Kapampangan version */
+    #congratsScreen {
+      position: fixed;
+      top: 0;
+      left: 100px;
+      width: calc(100vw - 100px);
+      height: 100vh;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff8df;
+      z-index: 1000;
+    }
+
+    .congrats {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .card {
+      width: 750px;
+      height: auto;
+      padding: 40px 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .card-gif {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .card-img {
+      height: 200px;
+      z-index: 2;
+    }
+
+    .card p {
+      z-index: 2;
+      position: relative;
+      font-size: 24px;
+    }
+
+    .card h1 {
+      font-size: 50px;
+      color: #2e4365;
+      z-index: 2;
+      margin: 0;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .button {
+      background-color: #2e4365;
+      width: 130px;
+      height: 45px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .button:hover {
+      background-color: #8c3b06;
+    }
+
+    .button p {
+      color: #fff;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    #congratsScreen::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/green1.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    z-index: -1;
+  }
+
+  /* Score styling */
+  #finalScore {
+    font-size: 32px;
+    color: #8c3b06;
+    font-weight: bold;
+    z-index: 2;
+    margin: 0;
+  }
+
+  /* Brown restart button */
+  .restart-btn {
+    background-color: #8c3b06;
+  }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="icon"><img src="../assets/images/salinify.png" alt="Salin Icon"></div>
+      <ul>
+        <li><a href="home.html"><span class="material-icons">home</span><span class="nav-label">Home</span></a></li>
+        <li><a href="classes.html"><span class="material-icons">school</span><span class="nav-label">Classes</span></a></li>
+        <li><a href="learn-ui.html"><span class="material-icons">menu_book</span><span class="nav-label">Learn</span></a></li>
+        <li><a href="play-ui.html"><span class="material-icons">sports_esports</span><span class="nav-label">Play</span></a></li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <div class="Ilocano">Ilocano</div>
+
+      <div class="progress-container">
+        <div class="progress"><div class="progress-bar" id="progress"></div></div>
+        <div class="points" id="points">0 / 20</div>
+      </div>
+
+      <div class="instruction">Instruction: Click two boxes that belong together. If they match, they will disappear and be recorded as a pair. Continue until all pairs are matched.</div>
+
+      <div class="word-boxes" id="wordBoxes">
+        <div class="word-box" data-pair="20">Ilog</div>
+        <div class="word-box" data-pair="3">Manáng</div>
+        <div class="word-box" data-pair="16">Prutas</div>
+        <div class="word-box" data-pair="8">Malamíg</div>
+        <div class="word-box" data-pair="14">Inapúy</div>
+        <div class="word-box" data-pair="15">Naténg</div>
+        <div class="word-box" data-pair="18">Dagat</div>
+        <div class="word-box" data-pair="15">Gulay</div>
+        <div class="word-box" data-pair="4">Manóng</div>
+        <div class="word-box" data-pair="6">Gwapo</div>
+        <div class="word-box" data-pair="10">Naimbág nga malém</div>
+        <div class="word-box" data-pair="3">Àte</div>
+        <div class="word-box" data-pair="6">Natarakí</div>
+        <div class="word-box" data-pair="5">Maganda</div>
+        <div class="word-box" data-pair="11">Magandáng Gabi</div>
+        <div class="word-box" data-pair="5">Napíntas</div>
+        <div class="word-box" data-pair="17">Bantáy</div>
+        <div class="word-box" data-pair="4">Kúya</div>
+        <div class="word-box" data-pair="7">Napudót</div>
+        <div class="word-box" data-pair="18">Baybay</div>
+        <div class="word-box" data-pair="11">Naimbág nga rabí-i</div>
+        <div class="word-box" data-pair="13">Pagkain</div>
+        <div class="word-box" data-pair="9">Magandáng Umaga</div>
+        <div class="word-box" data-pair="8">Nalamíis</div>
+        <div class="word-box" data-pair="13">Makan</div>
+        <div class="word-box" data-pair="2">Tatáng</div>
+        <div class="word-box" data-pair="12">Maraming salamat</div>
+        <div class="word-box" data-pair="9">Naimbág nga bigát</div>
+        <div class="word-box" data-pair="20">Karayan</div>
+        <div class="word-box" data-pair="14">Kanin</div>
+        <div class="word-box" data-pair="7">Mainit</div>
+        <div class="word-box" data-pair="1">Nanay</div>
+        <div class="word-box" data-pair="16">Bunga</div>
+        <div class="word-box" data-pair="12">Agyamanák Unay</div>
+        <div class="word-box" data-pair="10">Magandáng Hapon</div>
+        <div class="word-box" data-pair="1">Ináng</div>
+        <div class="word-box" data-pair="19">Kayú</div>
+        <div class="word-box" data-pair="2">Tatay</div>
+        <div class="word-box" data-pair="17">Bundok</div>
+        <div class="word-box" data-pair="19">Puno</div>
+      </div>
+
+      <div class="action-bar">
+        <button class="pair-btn" id="showPairs">Review Matched Pairs</button>
+      </div>
+
+      <div class="pair-words" id="pairWords"></div>
+    </div>
+  </div>
+
+  <!-- Enhanced Congratulations Screen -->
+  <div id="congratsScreen">
+    <div class="congrats">
+      <div class="card">
+        <img src="../assets/images/confetti.gif" class="card-gif" />
+        <img src="../assets/images/sali_congrats.png" class="card-img" />
+      <h1>Congratulations!</h1>
+      <p id="finalScore">Score: 0 / 20</p>
+      <p>You did a great job mastering Ilocano word pairs!</p>
+      </div>
+      <audio id="congratsSound" src="../assets/audio/congrats.mp3" preload="auto"></audio>
+      <div class="button-group">
+        <div class="button" onclick="restartGame()">
+          <p>Restart</p>
+        </div>
+        <div class="button done-btn" onclick="nextGame()">
+          <p>Back</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  const wordBoxesContainer = document.getElementById('wordBoxes');
+  let boxes = [];
+  const pairWords = document.getElementById('pairWords');
+  const progressBar = document.getElementById('progress');
+  const showPairsBtn = document.getElementById('showPairs');
+  const pointsDisplay = document.getElementById('points');
+  const correctSound = new Audio('../assets/audio/correct.mp3');
+  const wrongSound = new Audio('../assets/audio/wrong.mp3');
+  const congratsSound = document.getElementById("congratsSound");
+
+  let selected = [];
+  let correctPairs = 0;
+  let storedPairs = [];
+  let points = 0;
+  let gameCompleted = false;
+
+  function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
+
+  function resetAndShuffleBoxes() {
+    const allBoxes = document.querySelectorAll('.word-box');
+    allBoxes.forEach(box => {
+      box.classList.remove('matched', 'shake');
+      box.style.background = '#ffffff';
+    });
+
+    const boxesArray = Array.from(document.querySelectorAll('.word-box'));
+    const shuffledBoxes = shuffleArray(boxesArray);
+
+    wordBoxesContainer.innerHTML = '';
+    shuffledBoxes.forEach(box => {
+      wordBoxesContainer.appendChild(box);
+    });
+  
+    boxes = Array.from(document.querySelectorAll('.word-box'));
+    
+    attachClickListeners();
+  }
+
+  function attachClickListeners() {
+    boxes.forEach(box => {
+      box.removeEventListener('click', handleBoxClick); 
+    });
+    
+    boxes.forEach(box => {
+      box.addEventListener('click', handleBoxClick);
+    });
+  }
+
+  function handleBoxClick(e) {
+    const box = e.currentTarget;
+    if (box.classList.contains('matched') || gameCompleted || selected.includes(box)) return;
+    
+    selected.push(box);
+    box.style.background = '#e3d6ad';
+
+    if (selected.length === 2) {
+      const [f, s] = selected;
+      if (f.dataset.pair === s.dataset.pair && f !== s) {
+        playCorrectSound();
+        storedPairs.push(`${f.textContent} ↔ ${s.textContent}`);
+        f.classList.add('matched');
+        s.classList.add('matched');
+        correctPairs++;
+        points++;
+        pointsDisplay.textContent = `${points} / 20`;
+        progressBar.style.width = `${(correctPairs / 20) * 100}%`;
+        showPlusOne();
+        if (correctPairs === 20) {
+          gameCompleted = true;
+          setTimeout(() => showCongrats(), 800);
+        }
+      } else {
+        playWrongSound();
+        f.classList.add('shake');
+        s.classList.add('shake');
+        setTimeout(() => {
+          f.classList.remove('shake');
+          s.classList.remove('shake');
+          f.style.background = '#ffffff';
+          s.style.background = '#ffffff';
+        }, 500);
+      }
+      selected = [];
+    }
+  }
+
+  function playWrongSound() {
+    wrongSound.currentTime = 0;
+    wrongSound.play().catch(e => console.log("Wrong sound failed:", e));
+  }
+
+  function playCorrectSound() {
+    correctSound.currentTime = 0;
+    correctSound.play().catch(e => console.log("Correct sound failed:", e));
+  }
+
+  function showPlusOne() {
+    const existing = pointsDisplay.parentNode.querySelector('.plus-one');
+    if (existing) existing.remove();
+    const p1 = document.createElement('span');
+    p1.className = 'plus-one';
+    p1.textContent = '+1';
+    pointsDisplay.parentNode.appendChild(p1);
+    setTimeout(() => p1.remove(), 1000);
+  }
+
+function showCongrats() {
+  const screen = document.getElementById("congratsScreen");
+  const finalScoreText = document.getElementById("finalScore");
+
+  finalScoreText.innerText = `Score: ${points} / 20`;
+
+  screen.style.display = "flex";
+  congratsSound.play().catch(e => console.log("Congrats sound failed:", e));
+}
+
+  function restartGame() {
+    selected = [];
+    correctPairs = 0;
+    storedPairs = [];
+    points = 0;
+    gameCompleted = false;
+
+    pointsDisplay.textContent = `0 / 20`;
+    progressBar.style.width = `0%`;
+    pairWords.innerHTML = "";
+    pairWords.style.display = "none";
+    document.getElementById("congratsScreen").style.display = "none";
+
+    resetAndShuffleBoxes();
+  }
+
+  function nextGame() {
+    localStorage.removeItem('startedSecondGame');
+    document.querySelector('.container').style.opacity = '0';
+    setTimeout(() => {
+      window.location.href = "play-ui.html";
+    }, 300);
+  }
+
+  showPairsBtn.addEventListener('click', () => {
+    if (pairWords.style.display === "flex") {
+      pairWords.style.display = "none";
+    } else {
+      pairWords.innerHTML = "";
+      if (storedPairs.length === 0) {
+        pairWords.innerHTML = "<p style='color:#8A3B08;'>No matches yet! Keep playing.</p>";
+      } else {
+        storedPairs.forEach(p => {
+          const d = document.createElement('div');
+          d.className = 'pair';
+          d.textContent = p;
+          pairWords.appendChild(d);
+        });
+      }
+      pairWords.style.display = "flex";
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    resetAndShuffleBoxes();
+
+    const navLinks = document.querySelectorAll('.sidebar ul li a');
+    navLinks.forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const targetUrl = this.getAttribute('href');
+        document.querySelector('.container').style.opacity = '0';
+        setTimeout(() => {
+          window.location.href = targetUrl;
+        }, 300);
+      });
+    });
+  });
+</script>
+</body>
+</html>
