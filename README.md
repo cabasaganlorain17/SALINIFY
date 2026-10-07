@@ -8,11 +8,19 @@ Salinify is a dialect learning platform designed to help users learn basic
 Kapampangan and Ilocano vocabulary through interactive flashcards, quizzes,
 
 and educational games.
+=======
+**# Salinify**
+
+Salinify is a dialect learning platform designed to help users learn basic Kapampangan and Ilocano vocabulary through interactive flashcards, 
+
+quizzes, and educational games.
+>>>>>>> origin/main
 
 
 
 **## About the Project**
 
+<<<<<<< HEAD
 
 
 Salinify was developed as a school project for learning and applying concepts
@@ -26,23 +34,37 @@ The platform currently focuses on basic vocabulary in two Philippine
 languages:
 
 
+=======
+Salinify was developed as a school project for learning and applying concepts in web development, information management, databases, and 
+
+software development.
+
+The platform currently focuses on basic vocabulary in two Philippine languages:
+>>>>>>> origin/main
 
 \- Kapampangan
 
 \- Ilocano
 
+<<<<<<< HEAD
 
 
 Users can explore vocabulary through different categories and practice what
 
 they have learned through interactive activities.
+=======
+Users can explore vocabulary through different categories and practice what they have learned through interactive activities.
+>>>>>>> origin/main
 
 
 
 **## Features**
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/main
 \- Kapampangan vocabulary
 
 \- Ilocano vocabulary
@@ -95,12 +117,17 @@ they have learned through interactive activities.
 
 **## Database**
 
+<<<<<<< HEAD
 
 
 The current database contains the core Salinify learning content, including:
 
 
 
+=======
+The current database contains the core Salinify learning content, including:
+
+>>>>>>> origin/main
 \- Categories
 
 \- Dialects
@@ -117,6 +144,10 @@ The current database contains the core Salinify learning content, including:
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
 A SQL backup of the database is included in:
 
 
