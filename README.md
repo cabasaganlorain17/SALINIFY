@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 **# Salinify**
 
 
@@ -124,3 +125,7 @@ A SQL backup of the database is included in:
 
 database/salinify.sql
 
+=======
+# SALINIFY
+Salinify - Dialect Learning Platform for Kapampangan and Ilocano
+>>>>>>> 1d66510ec85f42d4f194fa3502da907f06c3b6e7
