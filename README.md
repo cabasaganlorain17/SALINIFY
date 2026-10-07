@@ -1,162 +1,63 @@
-<<<<<<< HEAD
-**# Salinify**
-
-
+# Salinify
 
 Salinify is a dialect learning platform designed to help users learn basic
-
 Kapampangan and Ilocano vocabulary through interactive flashcards, quizzes,
-
 and educational games.
-=======
-**# Salinify**
 
-Salinify is a dialect learning platform designed to help users learn basic Kapampangan and Ilocano vocabulary through interactive flashcards, 
+## About the Project
 
-quizzes, and educational games.
->>>>>>> origin/main
+Salinify was developed as a school project that combines web development,
+database management, and information management concepts.
 
-
-
-**## About the Project**
-
-<<<<<<< HEAD
-
-
-Salinify was developed as a school project for learning and applying concepts
-
-in web development, information management, databases, and software development.
-
-
-
-The platform currently focuses on basic vocabulary in two Philippine
-
+The platform focuses on introducing basic vocabulary from two Philippine
 languages:
 
-
-=======
-Salinify was developed as a school project for learning and applying concepts in web development, information management, databases, and 
-
-software development.
-
-The platform currently focuses on basic vocabulary in two Philippine languages:
->>>>>>> origin/main
-
-\- Kapampangan
-
-\- Ilocano
-
-<<<<<<< HEAD
-
-
-Users can explore vocabulary through different categories and practice what
-
-they have learned through interactive activities.
-=======
-Users can explore vocabulary through different categories and practice what they have learned through interactive activities.
->>>>>>> origin/main
-
-
-
-**## Features**
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> origin/main
-\- Kapampangan vocabulary
-
-\- Ilocano vocabulary
-
-\- Interactive flashcards
-
-\- Multiple-choice quizzes
-
-\- Analogy quizzes
-
-\- Matching-type games
-
-\- Vocabulary categories
-
-\- Word images
-
-\- Word pronunciation/audio
-
-\- Interactive learning activities
-
-
-
-**## Technologies**
-
-
-
-**### Frontend**
-
-\- HTML
-
-\- CSS
-
-\- JavaScript
-
-
-
-**### Backend**
-
-\- PHP
-
-
-
-**### Database**
-
-\- MySQL / MariaDB
-
-\- Aiven MySQL for shared database hosting
-
-
-
-**## Database**
-
-<<<<<<< HEAD
-
-
-The current database contains the core Salinify learning content, including:
-
-
-
-=======
-The current database contains the core Salinify learning content, including:
-
->>>>>>> origin/main
-\- Categories
-
-\- Dialects
-
-\- Words
-
-\- Quizzes
-
-\- Questions
-
-\- Options
-
-\- Matching pairs
-
-
-
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
-A SQL backup of the database is included in:
-
-
+- Kapampangan
+- Ilocano
+
+Users can explore vocabulary by category and practice what they have learned
+through different interactive activities.
+
+## Features
+
+- Kapampangan vocabulary
+- Ilocano vocabulary
+- Interactive flashcards
+- Multiple-choice quizzes
+- Analogy quizzes
+- Matching-type games
+- Vocabulary categories
+- Word images
+- Pronunciation and audio
+- Interactive learning activities
+
+## Technologies
+
+### Frontend
+- HTML
+- CSS
+- JavaScript
+
+### Backend
+- PHP
+
+### Database
+- MySQL / MariaDB
+
+## Database
+
+The project includes an SQL database containing the main learning content,
+including:
+
+- Categories
+- Dialects
+- Words
+- Quizzes
+- Questions
+- Options
+- Matching pairs
+
+The database SQL file is located at:
 
 ```text
-
 database/salinify.sql
-
-=======
-# SALINIFY
-Salinify - Dialect Learning Platform for Kapampangan and Ilocano
->>>>>>> 1d66510ec85f42d4f194fa3502da907f06c3b6e7
