@@ -1,3 +1,4 @@
+
 <?php
 
 header("Content-Type: application/json; charset=UTF-8");
@@ -26,23 +27,21 @@ $sql = "
     WHERE d.dialect_name = ?
 ";
 
-$stmt = $conn->prepare($sql);
+try {
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$dialect]);
 
-$stmt->bind_param("s", $dialect);
+    $words = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$stmt->execute();
+    echo json_encode($words, JSON_UNESCAPED_UNICODE);
 
-$result = $stmt->get_result();
+} catch (PDOException $e) {
+    error_log("Words query failed: " . $e->getMessage());
+    http_response_code(500);
 
-$words = [];
-
-while ($row = $result->fetch_assoc()) {
-    $words[] = $row;
+    echo json_encode([
+        "error" => "Unable to retrieve words."
+    ]);
 }
-
-echo json_encode($words, JSON_UNESCAPED_UNICODE);
-
-$stmt->close();
-$conn->close();
 
 ?>

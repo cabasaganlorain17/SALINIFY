@@ -1,3 +1,4 @@
+
 <?php
 
 header("Content-Type: application/json; charset=UTF-8");
@@ -34,42 +35,47 @@ $sql = "
     ORDER BY q.question_id, o.option_id
 ";
 
-$stmt = $conn->prepare($sql);
+try {
+    $stmt = $conn->prepare($sql);
 
-$stmt->bind_param("ss", $dialect, $type);
+    $stmt->execute([$dialect, $type]);
 
-$stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$result = $stmt->get_result();
+    $questions = [];
 
-$questions = [];
+    foreach ($rows as $row) {
+        $questionId = $row["question_id"];
 
-while ($row = $result->fetch_assoc()) {
+        if (!isset($questions[$questionId])) {
+            $questions[$questionId] = [
+                "question_id" => $questionId,
+                "question" => $row["question_text"],
+                "hint" => $row["hint"],
+                "options" => []
+            ];
+        }
 
-    $questionId = $row["question_id"];
-
-    if (!isset($questions[$questionId])) {
-
-        $questions[$questionId] = [
-            "question_id" => $questionId,
-            "question" => $row["question_text"],
-            "hint" => $row["hint"],
-            "options" => []
+        $questions[$questionId]["options"][] = [
+            "option_id" => $row["option_id"],
+            "text" => $row["option_text"],
+            "is_correct" => $row["is_correct"]
         ];
     }
 
-    $questions[$questionId]["options"][] = [
-        "option_id" => $row["option_id"],
-        "text" => $row["option_text"],
-        "is_correct" => $row["is_correct"]
-    ];
+    echo json_encode(
+        array_values($questions),
+        JSON_UNESCAPED_UNICODE
+    );
+
+} catch (PDOException $e) {
+    error_log("Quiz query failed: " . $e->getMessage());
+
+    http_response_code(500);
+
+    echo json_encode([
+        "error" => "Unable to retrieve quiz questions."
+    ]);
 }
-
-$questions = array_values($questions);
-
-echo json_encode($questions, JSON_UNESCAPED_UNICODE);
-
-$stmt->close();
-$conn->close();
 
 ?>

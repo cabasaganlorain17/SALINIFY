@@ -1,3 +1,4 @@
+
 <?php
 
 header("Content-Type: application/json; charset=UTF-8");
@@ -31,23 +32,21 @@ $sql = "
     ORDER BY mp.pair_id
 ";
 
-$stmt = $conn->prepare($sql);
+try {
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$dialect]);
 
-$stmt->bind_param("s", $dialect);
+    $pairs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$stmt->execute();
+    echo json_encode($pairs, JSON_UNESCAPED_UNICODE);
 
-$result = $stmt->get_result();
+} catch (PDOException $e) {
+    error_log("Matching query failed: " . $e->getMessage());
+    http_response_code(500);
 
-$pairs = [];
-
-while ($row = $result->fetch_assoc()) {
-    $pairs[] = $row;
+    echo json_encode([
+        "error" => "Unable to retrieve matching pairs."
+    ]);
 }
-
-echo json_encode($pairs, JSON_UNESCAPED_UNICODE);
-
-$stmt->close();
-$conn->close();
 
 ?>

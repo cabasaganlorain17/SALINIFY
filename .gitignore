@@ -22,3 +22,8 @@ desktop.ini
 # Temporary files
 *.tmp
 *.log
+
+#Temporary database connection test
+api/db.php
+api/test_connection.php
+.env
