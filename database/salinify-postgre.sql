@@ -1,1 +1,0 @@
-SELECT * FROM public.words ORDER BY word_id;
